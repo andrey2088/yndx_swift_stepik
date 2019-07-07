@@ -22,6 +22,8 @@ public class FileNotebookTests: XCTestCase {
             return
         }
 
+        sut.clearFile()
+
         XCTAssertEqual(displayStyle, .class)
     }
 

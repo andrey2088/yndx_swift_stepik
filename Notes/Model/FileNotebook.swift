@@ -58,6 +58,12 @@ public class FileNotebook {
         }
     }
 
+    
+    public func clearFile() {
+        self.notes = [:]
+        self.saveToFile()
+    }
+
 
     private func generateDataForJson() throws -> Data {
         var jsonData: Data
