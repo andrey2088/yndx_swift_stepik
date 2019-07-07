@@ -16,6 +16,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+
+        let log = Log()
+        log.info("Application launched.")
+
+        #if DEBUG
+            log.debug("Debug information output.")
+        #elseif DARKMODE
+            log.info("Launched in dark mode.")
+        #endif
+
         return true
     }
 

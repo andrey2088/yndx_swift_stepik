@@ -20,6 +20,7 @@
 		5583C43622CC33D20053AB21 /* FileNotebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5583C43322CC33D20053AB21 /* FileNotebook.swift */; };
 		5583C43722CC33D20053AB21 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5583C43422CC33D20053AB21 /* Note.swift */; };
 		5583C43822CC33D20053AB21 /* NoteExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5583C43522CC33D20053AB21 /* NoteExtension.swift */; };
+		55C75E3D22D2A07100ABFDFB /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C75E3C22D2A07100ABFDFB /* Log.swift */; };
 		E5D590370A04756B7FEC0D32 /* libPods-NotesTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15A238BEA2EE27B214C919D8 /* libPods-NotesTests.a */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +67,7 @@
 		5583C43322CC33D20053AB21 /* FileNotebook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileNotebook.swift; sourceTree = "<group>"; };
 		5583C43422CC33D20053AB21 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		5583C43522CC33D20053AB21 /* NoteExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteExtension.swift; sourceTree = "<group>"; };
+		55C75E3C22D2A07100ABFDFB /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		FABD66460C5110FC9D9B65CE /* Pods-Notes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Notes.debug.xcconfig"; path = "Target Support Files/Pods-Notes/Pods-Notes.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -158,6 +160,7 @@
 				5583C43322CC33D20053AB21 /* FileNotebook.swift */,
 				5583C43422CC33D20053AB21 /* Note.swift */,
 				5583C43522CC33D20053AB21 /* NoteExtension.swift */,
+				55C75E3C22D2A07100ABFDFB /* Log.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 			files = (
 				5583C43822CC33D20053AB21 /* NoteExtension.swift in Sources */,
 				5583C43622CC33D20053AB21 /* FileNotebook.swift in Sources */,
+				55C75E3D22D2A07100ABFDFB /* Log.swift in Sources */,
 				5583C40022CBFF350053AB21 /* ViewController.swift in Sources */,
 				5583C3FE22CBFF350053AB21 /* AppDelegate.swift in Sources */,
 				5583C43722CC33D20053AB21 /* Note.swift in Sources */,
@@ -757,9 +761,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_SWIFT_FLAGS = "-DDARKMODE";
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/CocoaLumberjack/CocoaLumberjack.modulemap\"";
 				PRODUCT_BUNDLE_IDENTIFIER = andrey.Notes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DARKMODE;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
