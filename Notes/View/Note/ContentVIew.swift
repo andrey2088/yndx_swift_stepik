@@ -71,7 +71,6 @@ class ContentView: UIView, UITextViewDelegate {
     }
 
     private func setupViews() {
-        print(portraitWidth)
         setupNoteTitleView()
         setupNoteTextView()
         setupSwitchLabelView()
@@ -107,7 +106,7 @@ class ContentView: UIView, UITextViewDelegate {
         noteTitleView.frame = CGRect(
             x: self.bounds.minX + sideMargin,
             y: self.bounds.minY + noteTitleViewMarginTop,
-            width: self.bounds.maxX - self.bounds.minX - sideMargin * 2,
+            width: self.bounds.size.width - sideMargin * 2,
             height: 30
         )
     }
@@ -138,7 +137,7 @@ class ContentView: UIView, UITextViewDelegate {
 
     private func adjustNoteTextViewSize() {
         //noteTextView.translatesAutoresizingMaskIntoConstraints = true
-        let noteTextViewWidth = self.bounds.maxX - self.bounds.minX - sideMargin * 2
+        let noteTextViewWidth = self.bounds.size.width - sideMargin * 2
         let noteTextViewFitsSize = noteTextView.sizeThatFits(CGSize(
             width: noteTextViewWidth,
             height: CGFloat.greatestFiniteMagnitude
@@ -341,6 +340,8 @@ class ContentView: UIView, UITextViewDelegate {
 
     @objc private func customSquarePressed(sender: UIGestureRecognizer) {
         if (sender.state == UIGestureRecognizer.State.began) {
+            selectedColorSquare = customColorSquare
+            updateUI()
             showColorPicker()
         }
     }
@@ -380,7 +381,6 @@ class ContentView: UIView, UITextViewDelegate {
                 + noteTextViewMarginTop + noteTextView.frame.size.height
                 + switchViewMarginTop + switchView.frame.size.height
                 + colorsViewMarginTop + colorsView.frame.size.height
-                //+ 1000
 
         if (!dateView.isHidden) {
             contentViewHeight += dateViewMarginTop + dateView.frame.size.height
