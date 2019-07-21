@@ -1,4 +1,4 @@
-import UIKit
+/*import UIKit
 
 class ScrollView: UIScrollView {
     
@@ -47,3 +47,4 @@ class ScrollView: UIScrollView {
         self.addSubview(contentView)
     }
 }
+*/

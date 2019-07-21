@@ -1,36 +1,35 @@
+//
+//  ColorPickerView.swift
+//  Notes
+//
+//  Created by andrey on 2019-07-20.
+//  Copyright © 2019 andrey. All rights reserved.
+//
+
 import UIKit
 
 class ColorPickerView: UIView {
-    
+
     private let portraitWidth: CGFloat = UIScreen.main.nativeBounds.width / UIScreen.main.nativeScale
     private let sideMargin: CGFloat = 15
     private let cornerRadius: CGFloat = 7
 
     private let selectedView = UIView()
-    private let selectedColorView = UIView()
-    private let selectedHexView = UILabel()
-    private let brightnessView = UISlider()
-    private let brightnessLabelView = UILabel()
-    private let paletteView = PaletteView(frame: CGRect.zero)
-    private let doneButton = UIButton()
+    internal let selectedColorView = UIView()
+    internal let selectedHexLabel = UILabel()
+    internal let brightnessSlider = UISlider()
+    private let brightnessLabel = UILabel()
+    internal let paletteView = PaletteView(frame: CGRect.zero)
+    internal let doneButton = UIButton()
 
     private let selectedViewMarginTop: CGFloat = 10
     private let selectedViewMarginRight: CGFloat = 20
-    private let brightnessViewMarginTop: CGFloat = 5
-    private let brightnessLabelViewHeight: CGFloat = 30
+    private let brightnessSliderMarginTop: CGFloat = 5
+    private let brightnessLabelHeight: CGFloat = 30
     private let paletteViewMarginTop: CGFloat = 10
     private let doneButtonMarginTop: CGFloat = 20
-    private let doneButtonWidth: CGFloat = 100
-    private let doneButtonHeight: CGFloat = 30
     private let doneButtonMarginBottom: CGFloat = 20
 
-    private var pickedColor: UIColor = UIColor.white {
-        didSet {
-            updateSelectedColor()
-        }
-    }
-
-    var onDoneButtonTapped: ((_ color: UIColor) -> ())?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,10 +39,6 @@ class ColorPickerView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupViews()
-    }
-
-    public func getPickedColor() ->UIColor {
-        return pickedColor
     }
 
     override internal func layoutSubviews() {
@@ -63,13 +58,11 @@ class ColorPickerView: UIView {
 
         self.addSubview(selectedView)
         selectedView.addSubview(selectedColorView)
-        selectedView.addSubview(selectedHexView)
-        self.addSubview(brightnessView)
-        self.addSubview(brightnessLabelView)
+        selectedView.addSubview(selectedHexLabel)
+        self.addSubview(brightnessSlider)
+        self.addSubview(brightnessLabel)
         self.addSubview(paletteView)
         self.addSubview(doneButton)
-
-        updateSelectedColor()
     }
 
 
@@ -93,7 +86,7 @@ class ColorPickerView: UIView {
             height: (selectedColorSide * 0.93).rounded()
         )
 
-        selectedHexView.frame = CGRect(
+        selectedHexLabel.frame = CGRect(
             x: selectedView.bounds.minX,
             y: selectedColorView.bounds.maxY,
             width: selectedColorSide,
@@ -111,50 +104,34 @@ class ColorPickerView: UIView {
         selectedColorView.layer.cornerRadius = cornerRadius
         selectedColorView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
-        selectedHexView.textAlignment = .center
-
-        /*selectedHexView.layer.borderWidth = 1
-        selectedHexView.layer.borderColor = UIColor.red.cgColor*/
-    }
-
-    private func updateSelectedColor() {
-        let selectedColor: UIColor = pickedColor.getThisColorWithBrightness(CGFloat(brightnessView.value))
-        let selectedHex: String = selectedColor.toHexString()
-        selectedColorView.backgroundColor = selectedColor
-        selectedHexView.text = selectedHex
+        selectedHexLabel.textAlignment = .center
     }
 
 
     // ---------- Brightness views ----------
 
     private func adjustBrightnessViewsLayout() {
-        brightnessView.frame.origin = CGPoint(
+        brightnessSlider.frame.origin = CGPoint(
             x: selectedView.frame.maxX + selectedViewMarginRight,
-            y: selectedView.frame.maxY - brightnessView.frame.size.height
+            y: selectedView.frame.maxY - brightnessSlider.frame.size.height
         )
-        brightnessView.frame.size.width =
+        brightnessSlider.frame.size.width =
             self.bounds.size.width - selectedView.frame.maxX - selectedViewMarginRight - sideMargin * 2
 
-        brightnessLabelView.frame = CGRect(
+        brightnessLabel.frame = CGRect(
             x: selectedView.frame.maxX + selectedViewMarginRight,
-            y: selectedView.frame.maxY - brightnessView.frame.size.height - brightnessViewMarginTop
-                - brightnessLabelViewHeight,
+            y: selectedView.frame.maxY - brightnessSlider.frame.size.height - brightnessSliderMarginTop
+                - brightnessLabelHeight,
             width: self.bounds.size.width - selectedView.frame.maxX - selectedViewMarginRight - sideMargin * 2,
-            height: brightnessLabelViewHeight
+            height: brightnessLabelHeight
         )
     }
 
     private func setupBrightnessViews() {
-        brightnessLabelView.text = "Brightness"
+        brightnessLabel.text = "Brightness"
 
-        brightnessView.maximumValue = 1
-        brightnessView.value = 1
-
-        brightnessView.addTarget(self, action: #selector(brightnessViewChanged), for: UIControl.Event.valueChanged)
-    }
-
-    @objc private func brightnessViewChanged() {
-        updateSelectedColor()
+        brightnessSlider.maximumValue = 1
+        brightnessSlider.value = 1
     }
 
 
@@ -166,41 +143,28 @@ class ColorPickerView: UIView {
             y: selectedView.frame.maxY + paletteViewMarginTop,
             width: self.bounds.size.width - sideMargin * 2,
             height: self.bounds.size.height - selectedView.frame.maxY - paletteViewMarginTop
-                - doneButtonMarginTop - doneButtonHeight - doneButtonMarginBottom
+                - doneButtonMarginTop - doneButton.intrinsicContentSize.height - doneButtonMarginBottom
         )
     }
 
     private func setupPaletteView() {
         paletteView.layer.borderWidth = 1
         paletteView.layer.borderColor = UIColor.black.cgColor
-
-        paletteView.onColorDidChange = { [weak self] color in DispatchQueue.main.async {
-            self?.pickedColor = color
-        }}
     }
 
     // ---------- Done button ----------
 
     private func adjustDoneButtonLayout() {
         doneButton.frame = CGRect(
-            x: self.bounds.minX + (self.bounds.size.width - doneButtonWidth) / 2,
+            x: self.bounds.minX + (self.bounds.size.width - doneButton.intrinsicContentSize.width) / 2,
             y: paletteView.frame.maxY + doneButtonMarginTop,
-            width: doneButtonWidth,
-            height: doneButtonHeight
+            width: doneButton.intrinsicContentSize.width,
+            height: doneButton.intrinsicContentSize.height
         )
     }
 
     private func setupDoneButton() {
         doneButton.setTitle("Done", for: .normal)
-        //doneButton.setTitleColor(UIColor(red: 255.0 / 10.0, green: 255.0 / 132.0, blue: 1, alpha: 1), for: .normal)
         doneButton.setTitleColor(doneButton.tintColor, for: .normal)
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector (doneButtonTapped))
-        doneButton.addGestureRecognizer(tapGesture)
-    }
-
-    @objc private func doneButtonTapped() {
-        let color: UIColor = pickedColor.getThisColorWithBrightness(CGFloat(brightnessView.value))
-        self.onDoneButtonTapped?(color)
     }
 }

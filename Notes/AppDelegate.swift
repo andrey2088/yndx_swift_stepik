@@ -13,18 +13,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
-        let log = Log()
+        /*let log = Log()
         log.info("Application launched.")
 
         #if DEBUG
             log.debug("Debug information output.")
         #elseif DARKMODE
             log.info("Launched in dark mode.")
-        #endif
+        #endif*/
+
+        window = UIWindow(frame: UIScreen.main.bounds)
+
+        let mainController = UITabBarController()
+
+        let noteListViewController = NoteListViewController()
+        let notesNavController = UINavigationController(rootViewController: noteListViewController)
+        let galleryViewController = GalleryViewController()
+        let galleryNavController = UINavigationController(rootViewController: galleryViewController)
+
+        notesNavController.tabBarItem = UITabBarItem(
+            title: "Notes",
+            image: UIImage(named: "tab_bar_icon/icon_note"),
+            selectedImage: nil
+        )
+        galleryNavController.tabBarItem = UITabBarItem(
+            title: "Gallery",
+            image: UIImage(named: "tab_bar_icon/icon_photo"),
+            selectedImage: nil
+        )
+        mainController.viewControllers = [notesNavController, galleryNavController]
+
+        window?.rootViewController = mainController
+        window?.makeKeyAndVisible()
 
         return true
     }

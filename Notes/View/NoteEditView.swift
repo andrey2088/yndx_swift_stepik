@@ -1,22 +1,30 @@
-/*import UIKit
+//
+//  NoteEditView.swift
+//  Notes
+//
+//  Created by andrey on 2019-07-20.
+//  Copyright © 2019 andrey. All rights reserved.
+//
 
-class ContentView: UIView, UITextViewDelegate {
+import UIKit
+
+class NoteEditView: UIView {
 
     private let portraitWidth: CGFloat = UIScreen.main.nativeBounds.width / UIScreen.main.nativeScale
     private let sideMargin: CGFloat = 15
 
-    private let noteTitleView = UITextField()
-    private let noteTextView = UITextView()
+    internal let noteTitleView = UITextField()
+    internal let noteTextView = UITextView()
     private let switchLabelView = UILabel()
-    private let switchView = UISwitch()
-    private let dateView = UIDatePicker()
+    internal let switchView = UISwitch()
+    internal let dateView = UIDatePicker()
     private let colorsView = UIView()
-    private let whiteColorSquare = UIView()
-    private let redColorSquare = UIView()
-    private let greenColorSquare = UIView()
-    private let customColorSquare = UIView()
-    private let paletteSquare = UIImageView()
-    private var selectedColorSquare: UIView?
+    internal let whiteColorSquare = UIView()
+    internal let redColorSquare = UIView()
+    internal let greenColorSquare = UIView()
+    internal let customColorSquare = UIView()
+    internal let paletteSquare = UIImageView()
+    internal var selectedColorSquare = UIView()
     private let markView = MarkView(frame: CGRect.zero)
 
     private let noteTitleViewMarginTop: CGFloat = 20
@@ -27,16 +35,8 @@ class ContentView: UIView, UITextViewDelegate {
     private let colorsViewMarginTop: CGFloat = 10
     private var colorsViewMarginLeft: CGFloat = 0
 
-    private var parentView: UIScrollView = UIScrollView()
-    private var viewController: UIViewController = UIViewController()
-    private var colorPickerView = ColorPickerView(frame: CGRect.zero)
-    private var customColorSelected: Bool = false
-    private var customColor: UIColor = UIColor.clear {
-        didSet {
-            customColorSelected = true
-            customColorSquare.backgroundColor = customColor
-        }
-    }
+    internal var colorPickerView = ColorPickerView(frame: CGRect.zero)
+    
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -48,29 +48,14 @@ class ContentView: UIView, UITextViewDelegate {
         setupViews()
     }
 
-    public func setParentView(_ parentView: UIScrollView) {
-        self.parentView = parentView
-    }
-
-    public func setViewController(_ viewController: UIViewController) {
-        self.viewController = viewController
-    }
-
-    public func setColorPickerView(_ colorPickerView: ColorPickerView) {
-        self.colorPickerView = colorPickerView
-    }
-
-    public func setCustomColor(_ customColor: UIColor) {
-        self.customColor = customColor
-    }
-
     override internal func layoutSubviews() {
         super.layoutSubviews()
-
         updateUI()
     }
 
     private func setupViews() {
+        selectedColorSquare = whiteColorSquare
+
         setupNoteTitleView()
         setupNoteTextView()
         setupSwitchLabelView()
@@ -87,7 +72,7 @@ class ContentView: UIView, UITextViewDelegate {
         self.addSubview(colorsView)
     }
 
-    private func updateUI() {
+    internal func updateUI() {
         adjustNoteTitleViewLayout()
         adjustNoteTextViewLayout()
         adjustSwitchLabelViewLayout()
@@ -96,7 +81,7 @@ class ContentView: UIView, UITextViewDelegate {
         adjustColorsViewsLayout()
         adjustMarkViewLayout()
 
-        setContentAndParentViewsHeight()
+        setViewHeight()
     }
 
 
@@ -135,30 +120,11 @@ class ContentView: UIView, UITextViewDelegate {
         adjustNoteTextViewSize()
     }
 
-    private func adjustNoteTextViewSize() {
-        //noteTextView.translatesAutoresizingMaskIntoConstraints = true
-        let noteTextViewWidth = self.bounds.size.width - sideMargin * 2
-        let noteTextViewFitsSize = noteTextView.sizeThatFits(CGSize(
-            width: noteTextViewWidth,
-            height: CGFloat.greatestFiniteMagnitude
-        ))
-        noteTextView.frame.size = CGSize(
-            width: noteTextViewWidth,
-            height: noteTextViewFitsSize.height
-        )
-    }
-
     private func setupNoteTextView() {
         noteTextView.delegate = self
-        /*noteTextView.layer.borderWidth = 1
-         noteTextView.layer.borderColor = UIColor.black.cgColor*/
         //noteTextView.font = .systemFont(ofSize: 14)
-        noteTextView.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+        //noteTextView.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
         noteTextView.isScrollEnabled = false
-    }
-
-    private func noteTextViewChanged() {
-        adjustNoteTextViewSize()
     }
 
 
@@ -280,10 +246,8 @@ class ContentView: UIView, UITextViewDelegate {
             height: customColorSquare.bounds.size.height
         )
 
-        if (selectedColorSquare != nil) {
-            markView.frame.origin.x = selectedColorSquare!.frame.maxX - markView.frame.height - 5
-            markView.drawMark()
-        }
+        markView.frame.origin.x = selectedColorSquare.frame.maxX - markView.frame.height - 5
+        markView.drawMark()
     }
 
     private func setupColorsViews() {
@@ -307,50 +271,6 @@ class ContentView: UIView, UITextViewDelegate {
         colorsView.addSubview(customColorSquare)
         colorsView.addSubview(markView)
         customColorSquare.addSubview(paletteSquare)
-
-        let whiteColor = UITapGestureRecognizer(target: self, action: #selector (colorSquareTapped(sender:)))
-        let redColor = UITapGestureRecognizer(target: self, action: #selector (colorSquareTapped(sender:)))
-        let greenColor = UITapGestureRecognizer(target: self, action: #selector (colorSquareTapped(sender:)))
-        let customColor = UITapGestureRecognizer(target: self, action: #selector (colorSquareTapped(sender:)))
-        whiteColorSquare.addGestureRecognizer(whiteColor)
-        redColorSquare.addGestureRecognizer(redColor)
-        greenColorSquare.addGestureRecognizer(greenColor)
-        customColorSquare.addGestureRecognizer(customColor)
-
-        let customColorLong = UILongPressGestureRecognizer(
-            target: self,
-            action: #selector (customSquarePressed(sender:))
-        )
-        customColorLong.minimumPressDuration = 0.5
-        customColorSquare.addGestureRecognizer(customColorLong)
-    }
-
-    @objc private func colorSquareTapped(sender: UIGestureRecognizer) {
-        let colorSquare: UIView? = sender.view
-
-        if (colorSquare != nil) {
-            selectedColorSquare = colorSquare
-            updateUI()
-        }
-
-        if (colorSquare == customColorSquare && !customColorSelected) {
-            showColorPicker()
-        }
-    }
-
-    @objc private func customSquarePressed(sender: UIGestureRecognizer) {
-        if (sender.state == UIGestureRecognizer.State.began) {
-            selectedColorSquare = customColorSquare
-            updateUI()
-            showColorPicker()
-        }
-    }
-
-    private func showColorPicker() {
-        parentView.isHidden = true
-        paletteSquare.isHidden = true
-        colorPickerView.isHidden = false
-        viewController.view.endEditing(true)
     }
 
 
@@ -367,27 +287,49 @@ class ContentView: UIView, UITextViewDelegate {
     }
 
 
-    // ----------
+    // ---------- View ----------
 
-    internal func textViewDidChange(_ textView: UITextView) {
-        if (textView == noteTextView) {
-            noteTextViewChanged()
-        }
-    }
-
-    private func setContentAndParentViewsHeight() {
-        var contentViewHeight: CGFloat =
+    private func setViewHeight() {
+        var viewHeight: CGFloat =
             noteTitleViewMarginTop + noteTitleView.frame.size.height
                 + noteTextViewMarginTop + noteTextView.frame.size.height
                 + switchViewMarginTop + switchView.frame.size.height
                 + colorsViewMarginTop + colorsView.frame.size.height
 
         if (!dateView.isHidden) {
-            contentViewHeight += dateViewMarginTop + dateView.frame.size.height
+            viewHeight += dateViewMarginTop + dateView.frame.size.height
         }
 
-        self.frame.size.height = contentViewHeight
-        parentView.contentSize.height = contentViewHeight
+        self.frame.size.height = viewHeight
+        self.parentScrollView()?.contentSize.height = viewHeight
     }
 }
-*/
+
+
+extension NoteEditView {
+    func parentScrollView() -> UIScrollView? {
+        return self.superview as? UIScrollView
+    }
+}
+
+
+extension NoteEditView: UITextViewDelegate {
+
+    func textViewDidChange(_ textView: UITextView) {
+        if (textView == noteTextView) {
+            adjustNoteTextViewSize()
+        }
+    }
+
+    func adjustNoteTextViewSize() {
+        let noteTextViewWidth = self.bounds.size.width - sideMargin * 2
+        let noteTextViewFitsSize = noteTextView.sizeThatFits(CGSize(
+            width: noteTextViewWidth,
+            height: CGFloat.greatestFiniteMagnitude
+        ))
+        noteTextView.frame.size = CGSize(
+            width: noteTextViewWidth,
+            height: noteTextViewFitsSize.height
+        )
+    }
+}

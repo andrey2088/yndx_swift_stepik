@@ -19,11 +19,11 @@ public struct Note {
         title: String,
         content: String,
         color: UIColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1),
-        importance: Importance,
+        importance: Importance = Importance.normal,
         selfDestructDate: Date? = nil
     ) {
         self.uid = uid
-        self.title = title
+        self.title = (title == "") ? "Empty title" : title
         self.content = content
         self.color = color
         self.importance = importance

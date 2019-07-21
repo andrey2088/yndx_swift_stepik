@@ -8,7 +8,7 @@ public class FileNotebookTests: XCTestCase {
 
     override public func setUp() {
         super.setUp()
-        sut = FileNotebook(filename: filename)
+        sut = FileNotebook(/*filename: filename*/)
     }
 
     override public func tearDown() {

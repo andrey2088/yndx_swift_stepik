@@ -2,12 +2,12 @@ import UIKit
 
 public class FileNotebook {
     private let dirname: String = "notebook_files"
-    private let filename: String
+    private let filename: String = "notes.js"
     public private(set) var notes: [String: Note] = [:]
 
 
-    public init (filename: String) {
-        self.filename = filename
+    public init (/*filename: String*/) {
+        //self.filename = filename
         self.loadFromFile()
     }
 
@@ -62,6 +62,19 @@ public class FileNotebook {
     public func clearFile() {
         self.notes = [:]
         self.saveToFile()
+    }
+
+
+    public func getNotesArraySortedByTitle() -> [Note] {
+        var notesArr: [Note] = []
+
+        for note in notes {
+            notesArr.append(note.value)
+        }
+
+        notesArr.sort(by: { $0.title > $1.title })
+
+        return notesArr
     }
 
 
