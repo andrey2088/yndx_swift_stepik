@@ -10,6 +10,9 @@ import UIKit
 
 class NoteListViewController: UIViewController {
 
+    private let editButtonText = "Edit"
+    private let cancelEditButtonText = "Cancel"
+
     private let fileNotebook = FileNotebook()
     private var notes: [Note] = []
 
@@ -37,6 +40,12 @@ class NoteListViewController: UIViewController {
 
     private func setupViews() {
         view.backgroundColor = UIColor.white
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: editButtonText,
+            style: .plain,
+            target: self,
+            action: #selector(editTapped(_:))
+        )
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
@@ -50,6 +59,24 @@ class NoteListViewController: UIViewController {
 
     private func adjustLayouts() {
         notesTableView.frame = view.safeAreaLayoutGuide.layoutFrame
+    }
+
+    @objc private func editTapped(_ sender: Any) {
+        if (notesTableView.isEditing == false) {
+            notesTableView.isEditing = true
+            navigationItem.leftBarButtonItem?.title = cancelEditButtonText
+            navigationItem.leftBarButtonItem?.setTitleTextAttributes(
+                [.font: UIFont.boldSystemFont(ofSize: 16)],
+                for: .normal
+            )
+        } else {
+            notesTableView.isEditing = false
+            navigationItem.leftBarButtonItem?.title = editButtonText
+            navigationItem.leftBarButtonItem?.setTitleTextAttributes(
+                [.font: UIFont.systemFont(ofSize: 16)],
+                for: .normal
+            )
+        }
     }
 
     @objc private func plusTapped(_ sender: Any) {

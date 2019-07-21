@@ -72,7 +72,7 @@ public class FileNotebook {
             notesArr.append(note.value)
         }
 
-        notesArr.sort(by: { $0.title > $1.title })
+        notesArr.sort(by: { $0.title < $1.title })
 
         return notesArr
     }
