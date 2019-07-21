@@ -46,6 +46,7 @@ class NoteEditViewController: UIViewController {
     }
 
     private func setupViews() {
+        title = "Note"
         noteEditView.frame.origin = CGPoint(
             x: noteEditScrollView.bounds.minX,
             y: noteEditScrollView.bounds.minY

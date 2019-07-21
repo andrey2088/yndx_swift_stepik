@@ -35,6 +35,7 @@
 		55C9D38322E3720C000A776E /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C9D38222E3720C000A776E /* ColorPickerViewController.swift */; };
 		55C9D38522E380B8000A776E /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C9D38422E380B8000A776E /* ColorPickerView.swift */; };
 		55C9D38722E3D9A8000A776E /* NoteEditScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C9D38622E3D9A8000A776E /* NoteEditScrollView.swift */; };
+		55C9D38B22E511D1000A776E /* PhotoNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C9D38A22E511D1000A776E /* PhotoNote.swift */; };
 		E5D590370A04756B7FEC0D32 /* libPods-NotesTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15A238BEA2EE27B214C919D8 /* libPods-NotesTests.a */; };
 /* End PBXBuildFile section */
 
@@ -96,6 +97,7 @@
 		55C9D38222E3720C000A776E /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
 		55C9D38422E380B8000A776E /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
 		55C9D38622E3D9A8000A776E /* NoteEditScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditScrollView.swift; sourceTree = "<group>"; };
+		55C9D38A22E511D1000A776E /* PhotoNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoNote.swift; sourceTree = "<group>"; };
 		FABD66460C5110FC9D9B65CE /* Pods-Notes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Notes.debug.xcconfig"; path = "Target Support Files/Pods-Notes/Pods-Notes.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -205,9 +207,10 @@
 			isa = PBXGroup;
 			children = (
 				5583C43322CC33D20053AB21 /* FileNotebook.swift */,
+				55C75E3C22D2A07100ABFDFB /* Log.swift */,
 				5583C43422CC33D20053AB21 /* Note.swift */,
 				5583C43522CC33D20053AB21 /* NoteExtension.swift */,
-				55C75E3C22D2A07100ABFDFB /* Log.swift */,
+				55C9D38A22E511D1000A776E /* PhotoNote.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				5583C43822CC33D20053AB21 /* NoteExtension.swift in Sources */,
 				5583C43622CC33D20053AB21 /* FileNotebook.swift in Sources */,
 				55A1F60C22D7E86500B400BE /* ContentVIew.swift in Sources */,
+				55C9D38B22E511D1000A776E /* PhotoNote.swift in Sources */,
 				55C9D38522E380B8000A776E /* ColorPickerView.swift in Sources */,
 				5568A1A322DBCF26000E64CA /* PointerView.swift in Sources */,
 				55C9D37922E27E4D000A776E /* GalleryViewController.swift in Sources */,

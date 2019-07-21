@@ -39,6 +39,7 @@ class NoteListViewController: UIViewController {
     }
 
     private func setupViews() {
+        title = "Notes"
         view.backgroundColor = UIColor.white
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             title: editButtonText,
@@ -51,7 +52,7 @@ class NoteListViewController: UIViewController {
             target: self,
             action: #selector(plusTapped(_:))
         )
-        notesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        notesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "tableCell")
         notesTableView.dataSource = self
         notesTableView.delegate = self
         view.addSubview(notesTableView)
