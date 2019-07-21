@@ -1,13 +1,53 @@
 import UIKit
 
 internal extension UIColor {
-    func getThisColorWithBrightness(_ brightness: CGFloat) -> UIColor {
+    func withBrightness(_ brightness: CGFloat) -> UIColor {
         var h: CGFloat = 0, s: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
 
         if getHue(&h, saturation: &s, brightness: &b, alpha: &a) {
             b = brightness
 
             return UIColor(hue: h, saturation: s, brightness: b, alpha: a)
+        }
+
+        return self
+    }
+
+    func getBrightnessValue() -> CGFloat? {
+        var h: CGFloat = 0, s: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+
+        if getHue(&h, saturation: &s, brightness: &b, alpha: &a) {
+            return b
+        }
+
+        return nil
+    }
+
+    func getHueValue() -> CGFloat? {
+        var h: CGFloat = 0, s: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+
+        if getHue(&h, saturation: &s, brightness: &b, alpha: &a) {
+            return h
+        }
+
+        return nil
+    }
+
+    func getSaturationValue() -> CGFloat? {
+        var h: CGFloat = 0, s: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+
+        if getHue(&h, saturation: &s, brightness: &b, alpha: &a) {
+            return s
+        }
+
+        return nil
+    }
+
+    func extendedSRGB() -> UIColor{
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+
+        if getRed(&r, green: &g, blue: &b, alpha: &a) {
+            return UIColor(red: r, green: g, blue: b, alpha: a)
         }
 
         return self
@@ -30,6 +70,7 @@ internal extension UIColor {
         let blue = CGFloat(b) / 255.0
         self.init(red:red, green:green, blue:blue, alpha:alpha)
     }
+
     func toHexString() -> String {
         var r:CGFloat = 0
         var g:CGFloat = 0

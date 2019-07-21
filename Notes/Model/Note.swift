@@ -25,7 +25,7 @@ public struct Note {
         self.uid = (uid == "") ? UUID().uuidString : uid
         self.title = (title == "") ? "Empty title" : title
         self.content = content
-        self.color = color
+        self.color = color.extendedSRGB()
         self.importance = importance
         self.selfDestructDate = selfDestructDate
     }

@@ -260,12 +260,13 @@ class NoteEditView: UIView {
     private func setupColorsViews() {
         whiteColorSquare.layer.borderWidth = 1
         whiteColorSquare.layer.borderColor = UIColor.black.cgColor
+        whiteColorSquare.backgroundColor = UIColor.white
         redColorSquare.layer.borderWidth = 1
         redColorSquare.layer.borderColor = UIColor.black.cgColor
-        redColorSquare.layer.backgroundColor = UIColor.red.cgColor
+        redColorSquare.backgroundColor = UIColor.red
         greenColorSquare.layer.borderWidth = 1
         greenColorSquare.layer.borderColor = UIColor.black.cgColor
-        greenColorSquare.layer.backgroundColor = UIColor.green.cgColor
+        greenColorSquare.backgroundColor = UIColor.green
         customColorSquare.layer.borderWidth = 1
         customColorSquare.layer.borderColor = UIColor.black.cgColor
 

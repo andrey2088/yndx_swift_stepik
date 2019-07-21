@@ -17,13 +17,8 @@ class NoteEditViewController: UIViewController {
     private let noteEditView = NoteEditView(frame: CGRect.zero)
 
     private var keyboardHeight: CGFloat = 0
-    private var customColorSelected: Bool = false
-    private var customColor: UIColor = UIColor.white {
-        didSet {
-            customColorSelected = true
-            noteEditView.customColorSquare.backgroundColor = customColor
-        }
-    }
+    private var noteColor: UIColor = UIColor.white
+    private var noteColorIsCustom: Bool = false
     internal var editingNoteUid: String? = nil
 
     override internal func viewDidLoad() {
@@ -63,7 +58,9 @@ class NoteEditViewController: UIViewController {
         colorsSquaresTaps()
 
         colorPickerViewController.onDoneButtonTapped = { [weak self] color in DispatchQueue.main.async {
-            self?.customColor = color
+            self?.noteColorIsCustom = true
+            self?.noteColor = color
+            self?.noteEditView.customColorSquare.backgroundColor = color
         }}
     }
 
@@ -78,10 +75,15 @@ class NoteEditViewController: UIViewController {
 
     private func buildNoteWithEnteredData() -> Note? {
         if (noteEditView.noteTitleView.text != "" || noteEditView.noteTextView.text != "") {
+            let selfDestructDate: Date? = (noteEditView.switchView.isOn == true)
+                ? noteEditView.dateView.date
+                : nil
             return Note(
                 uid: noteEditView.noteUidView.text!,
                 title: noteEditView.noteTitleView.text!,
-                content: noteEditView.noteTextView.text!
+                content: noteEditView.noteTextView.text!,
+                color: noteColor,
+                selfDestructDate: selfDestructDate
             )
         }
         print("note not builded")
@@ -112,9 +114,22 @@ class NoteEditViewController: UIViewController {
         if (note!.selfDestructDate != nil) {
             noteEditView.switchView.isOn = true
             noteEditView.dateView.date = note!.selfDestructDate!
+            noteEditView.dateView.isHidden = false
         }
 
-
+        noteColor = note!.color.extendedSRGB()
+        if (noteColor == noteEditView.whiteColorSquare.backgroundColor!.extendedSRGB()) {
+            noteEditView.selectedColorSquare = noteEditView.whiteColorSquare
+        } else if (noteColor == noteEditView.redColorSquare.backgroundColor!.extendedSRGB()) {
+            noteEditView.selectedColorSquare = noteEditView.redColorSquare
+        } else if (noteColor == noteEditView.greenColorSquare.backgroundColor!.extendedSRGB()) {
+            noteEditView.selectedColorSquare = noteEditView.greenColorSquare
+        } else {
+            noteEditView.selectedColorSquare = noteEditView.customColorSquare
+            noteEditView.customColorSquare.backgroundColor = noteColor
+            noteEditView.paletteSquare.isHidden = true
+            noteColorIsCustom = true
+        }
     }
 
 
@@ -143,10 +158,13 @@ class NoteEditViewController: UIViewController {
 
         if (colorSquare != nil) {
             noteEditView.selectedColorSquare = colorSquare!
+            if (colorSquare != noteEditView.customColorSquare) {
+                noteColor = colorSquare!.backgroundColor!
+            }
             noteEditView.updateUI()
         }
 
-        if (colorSquare == noteEditView.customColorSquare && !customColorSelected) {
+        if (colorSquare == noteEditView.customColorSquare && !noteColorIsCustom) {
             showColorPickerViewController()
         }
     }
@@ -162,6 +180,7 @@ class NoteEditViewController: UIViewController {
     private func showColorPickerViewController() {
         view.endEditing(true)
         noteEditView.paletteSquare.isHidden = true
+        colorPickerViewController.setSelectedColor(noteColor)
         self.navigationController?.pushViewController(colorPickerViewController, animated: false)
     }
 

@@ -6,6 +6,7 @@ class PaletteView: UIView {
 
     private var elementSize: CGFloat = 1
     private var brightness: CGFloat = 1
+    internal var pickedColor: UIColor = UIColor.white
 
     private let pointerView = PointerView(frame: CGRect.zero)
 
@@ -17,6 +18,15 @@ class PaletteView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
+    }
+
+    override internal func layoutSubviews() {
+        super.layoutSubviews()
+
+        let point = getPointOfColor(pickedColor)
+        if (point != nil) {
+            putPointer(point: point!)
+        }
     }
 
     private func setup() {
@@ -61,8 +71,7 @@ class PaletteView: UIView {
         }
     }
 
-    private func getColorAtPoint(point: CGPoint) -> UIColor
-    {
+    private func getColorAtPoint(point: CGPoint) -> UIColor {
         var roundedPoint = CGPoint(
             x:elementSize * CGFloat(Int(point.x / elementSize)),
             y:elementSize * CGFloat(Int(point.y / elementSize))
@@ -81,18 +90,37 @@ class PaletteView: UIView {
         }
     }
 
-    @objc private func touchedColor(gestureRecognizer: UILongPressGestureRecognizer){
-        let point = gestureRecognizer.location(in: self)
-        let color = getColorAtPoint(point: point)
-        
+    private func getPointOfColor(_ color: UIColor) -> CGPoint? {
+        let hue = color.getHueValue()
+        let saturation = color.getSaturationValue()
+
+        if (hue == nil || saturation == nil) {
+            return nil
+        }
+
+        let point = CGPoint (
+            x: self.bounds.size.width * hue!,
+            y: self.bounds.size.height - (self.bounds.size.height * saturation!)
+        )
+
+        return point
+    }
+
+    private func putPointer(point: CGPoint) {
+        pickedColor = getColorAtPoint(point: point)
+
         pointerView.frame.origin = CGPoint(
             x: point.x - pointerView.frame.size.width / 2,
             y: point.y - pointerView.frame.size.height / 2
         )
-        pointerView.setFillColor(color: color)
+        pointerView.setFillColor(color: pickedColor)
         pointerView.drawPointer()
 
+        self.onColorDidChange?(pickedColor)
+    }
 
-        self.onColorDidChange?(color)
+    @objc private func touchedColor(gestureRecognizer: UILongPressGestureRecognizer) {
+        let point = gestureRecognizer.location(in: self)
+        putPointer(point: point)
     }
 }

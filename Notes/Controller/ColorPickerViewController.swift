@@ -12,9 +12,13 @@ class ColorPickerViewController: UIViewController {
 
     private let colorPickerView = ColorPickerView()
 
-    private var pickedColor: UIColor = UIColor.white {
+    private var pickedColor: UIColor = UIColor.white
+    private var brightness: CGFloat = 1
+    private var selectedColor: UIColor = UIColor.white {
         didSet {
-            updateSelectedColor()
+            let selectedHex: String = selectedColor.toHexString()
+            colorPickerView.selectedColorView.backgroundColor = selectedColor
+            colorPickerView.selectedHexLabel.text = selectedHex
         }
     }
 
@@ -51,6 +55,7 @@ class ColorPickerViewController: UIViewController {
 
         colorPickerView.paletteView.onColorDidChange = { [weak self] color in DispatchQueue.main.async {
             self?.pickedColor = color
+            self?.changeSelectedColor()
         }}
     }
 
@@ -58,12 +63,18 @@ class ColorPickerViewController: UIViewController {
         colorPickerView.frame = view.safeAreaLayoutGuide.layoutFrame
     }
 
-    private func updateSelectedColor() {
-        let selectedColor: UIColor =
-            pickedColor.getThisColorWithBrightness(CGFloat(colorPickerView.brightnessSlider.value))
-        let selectedHex: String = selectedColor.toHexString()
-        colorPickerView.selectedColorView.backgroundColor = selectedColor
-        colorPickerView.selectedHexLabel.text = selectedHex
+    private func changeSelectedColor() {
+        selectedColor = self.pickedColor.withBrightness(self.brightness)
+    }
+
+    internal func setSelectedColor(_ color: UIColor) {
+        let brightness: CGFloat? = color.getBrightnessValue()
+        if (brightness == nil) {
+            return
+        }
+        self.brightness = brightness!
+        colorPickerView.brightnessSlider.value = Float(self.brightness)
+        colorPickerView.paletteView.pickedColor = color.withBrightness(1)
     }
 
 
@@ -74,9 +85,9 @@ class ColorPickerViewController: UIViewController {
     }
 
     @objc private func brightnessSliderChanged() {
-        updateSelectedColor()
+        brightness = CGFloat(colorPickerView.brightnessSlider.value)
+        changeSelectedColor()
     }
-
 
     // ---------- Done button tap ----------
 
@@ -86,7 +97,7 @@ class ColorPickerViewController: UIViewController {
     }
 
     @objc private func doneButtonTapped() {
-        let color: UIColor = pickedColor.getThisColorWithBrightness(CGFloat(colorPickerView.brightnessSlider.value))
+        let color: UIColor = selectedColor
         self.onDoneButtonTapped?(color)
         self.navigationController?.popViewController(animated: false)
     }
