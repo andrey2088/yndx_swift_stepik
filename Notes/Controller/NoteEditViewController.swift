@@ -79,6 +79,7 @@ class NoteEditViewController: UIViewController {
     private func buildNoteWithEnteredData() -> Note? {
         if (noteEditView.noteTitleView.text != "" || noteEditView.noteTextView.text != "") {
             return Note(
+                uid: noteEditView.noteUidView.text!,
                 title: noteEditView.noteTitleView.text!,
                 content: noteEditView.noteTextView.text!
             )
@@ -105,6 +106,7 @@ class NoteEditViewController: UIViewController {
             return
         }
 
+        noteEditView.noteUidView.text = note!.uid
         noteEditView.noteTitleView.text = note!.title
         noteEditView.noteTextView.text = note!.content
         if (note!.selfDestructDate != nil) {

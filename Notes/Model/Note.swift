@@ -15,14 +15,14 @@ public struct Note {
     }
 
     public init(
-        uid: String = UUID().uuidString,
+        uid: String,
         title: String,
         content: String,
         color: UIColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1),
         importance: Importance = Importance.normal,
         selfDestructDate: Date? = nil
     ) {
-        self.uid = uid
+        self.uid = (uid == "") ? UUID().uuidString : uid
         self.title = (title == "") ? "Empty title" : title
         self.content = content
         self.color = color

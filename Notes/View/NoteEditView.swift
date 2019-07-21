@@ -13,6 +13,7 @@ class NoteEditView: UIView {
     private let portraitWidth: CGFloat = UIScreen.main.nativeBounds.width / UIScreen.main.nativeScale
     private let sideMargin: CGFloat = 15
 
+    internal let noteUidView = UITextField()
     internal let noteTitleView = UITextField()
     internal let noteTextView = UITextView()
     private let switchLabelView = UILabel()
@@ -56,6 +57,7 @@ class NoteEditView: UIView {
     private func setupViews() {
         selectedColorSquare = whiteColorSquare
 
+        setupNoteUidView()
         setupNoteTitleView()
         setupNoteTextView()
         setupSwitchLabelView()
@@ -82,6 +84,12 @@ class NoteEditView: UIView {
         adjustMarkViewLayout()
 
         setViewHeight()
+    }
+
+    // ---------- Note uid view ----------
+
+    private func setupNoteUidView() {
+        noteUidView.isHidden = true
     }
 
 
