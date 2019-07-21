@@ -26,12 +26,12 @@ class NoteListViewController: UIViewController {
     }
 
     override internal func viewWillAppear(_ animated: Bool) {
-        if (!self.isMovingToParent) {
+        if (self.isMovingToParent) {
+            fillNotesFromFileNotebook()
+        } else {
             fileNotebook.loadFromFile()
-        }
-        fillNotesFromFileNotebook()
-        if (!self.isMovingToParent) {
-            notesTableView.reloadData()
+            print("fileNotebook loaded")
+            refreshTable()
         }
     }
 
@@ -52,10 +52,6 @@ class NoteListViewController: UIViewController {
         notesTableView.frame = view.safeAreaLayoutGuide.layoutFrame
     }
 
-    private func fillNotesFromFileNotebook() {
-        notes = fileNotebook.getNotesArraySortedByTitle()
-    }
-
     @objc private func plusTapped(_ sender: Any) {
         showNoteEditViewController()
     }
@@ -68,6 +64,17 @@ class NoteListViewController: UIViewController {
         }
 
         self.navigationController?.pushViewController(noteEditViewController, animated: true)
+    }
+
+    private func fillNotesFromFileNotebook() {
+        notes = fileNotebook.getNotesArraySortedByTitle()
+        print("notes filled")
+    }
+
+    private func refreshTable() {
+        fillNotesFromFileNotebook()
+        notesTableView.reloadData()
+        print("table refreshed")
     }
 }
 
@@ -101,5 +108,21 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         showNoteEditViewController(editingNoteUid: notes[indexPath.row].uid)
+    }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(
+        _ tableView: UITableView,
+        commit editingStyle: UITableViewCell.EditingStyle,
+        forRowAt indexPath: IndexPath
+    ) {
+        if (editingStyle == .delete) {
+            fileNotebook.remove(with: notes[indexPath.row].uid)
+            fileNotebook.saveToFile()
+            refreshTable()
+        }
     }
 }

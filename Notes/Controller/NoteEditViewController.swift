@@ -92,7 +92,7 @@ class NoteEditViewController: UIViewController {
         if let note = buildNoteWithEnteredData() {
             fileNotebook.add(note)
             fileNotebook.saveToFile()
-            print("note added")
+            print("note added/edited")
         }
     }
 
