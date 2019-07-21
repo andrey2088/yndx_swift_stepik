@@ -69,6 +69,7 @@ extension GalleryViewController: UICollectionViewDataSource {
         imageView.image = photoNote.photo
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor.gray.cgColor
+        imageView.contentMode = .scaleAspectFill
 
         cell.contentView.addSubview(imageView)
 
@@ -86,5 +87,11 @@ extension GalleryViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return spacing
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let photoViewController = PhotoViewController()
+        photoViewController.setCurrentPhoto(index: indexPath.item)
+        self.navigationController?.pushViewController(photoViewController, animated: true)
     }
 }

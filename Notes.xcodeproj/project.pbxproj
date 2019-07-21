@@ -36,6 +36,8 @@
 		55C9D38522E380B8000A776E /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C9D38422E380B8000A776E /* ColorPickerView.swift */; };
 		55C9D38722E3D9A8000A776E /* NoteEditScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C9D38622E3D9A8000A776E /* NoteEditScrollView.swift */; };
 		55C9D38B22E511D1000A776E /* PhotoNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C9D38A22E511D1000A776E /* PhotoNote.swift */; };
+		55C9D38D22E51B9F000A776E /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C9D38C22E51B9F000A776E /* PhotoViewController.swift */; };
+		55C9D38F22E51BFF000A776E /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C9D38E22E51BFF000A776E /* PhotoView.swift */; };
 		E5D590370A04756B7FEC0D32 /* libPods-NotesTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15A238BEA2EE27B214C919D8 /* libPods-NotesTests.a */; };
 /* End PBXBuildFile section */
 
@@ -98,6 +100,8 @@
 		55C9D38422E380B8000A776E /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
 		55C9D38622E3D9A8000A776E /* NoteEditScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditScrollView.swift; sourceTree = "<group>"; };
 		55C9D38A22E511D1000A776E /* PhotoNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoNote.swift; sourceTree = "<group>"; };
+		55C9D38C22E51B9F000A776E /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
+		55C9D38E22E51BFF000A776E /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		FABD66460C5110FC9D9B65CE /* Pods-Notes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Notes.debug.xcconfig"; path = "Target Support Files/Pods-Notes/Pods-Notes.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -224,6 +228,7 @@
 				55C9D38622E3D9A8000A776E /* NoteEditScrollView.swift */,
 				55C9D38022E3533B000A776E /* NoteEditView.swift */,
 				5568A19D22DA9B9F000E64CA /* PaletteView.swift */,
+				55C9D38E22E51BFF000A776E /* PhotoView.swift */,
 				5568A1A222DBCF26000E64CA /* PointerView.swift */,
 				5568A19F22DB82DE000E64CA /* Note */,
 				5568A19C22DA99F0000E64CA /* ColorPicker */,
@@ -238,6 +243,7 @@
 				55C9D37822E27E4D000A776E /* GalleryViewController.swift */,
 				55C9D37622E27DDC000A776E /* NoteEditViewController.swift */,
 				55C9D37422E27DCA000A776E /* NoteListViewController.swift */,
+				55C9D38C22E51B9F000A776E /* PhotoViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -463,6 +469,7 @@
 				55C9D38122E3533B000A776E /* NoteEditView.swift in Sources */,
 				55C9D37722E27DDC000A776E /* NoteEditViewController.swift in Sources */,
 				55C75E3D22D2A07100ABFDFB /* Log.swift in Sources */,
+				55C9D38F22E51BFF000A776E /* PhotoView.swift in Sources */,
 				55C9D37522E27DCA000A776E /* NoteListViewController.swift in Sources */,
 				5568A1A522DBE6B7000E64CA /* ColorExtension.swift in Sources */,
 				5583C40022CBFF350053AB21 /* ViewController.swift in Sources */,
@@ -473,6 +480,7 @@
 				55C9D38722E3D9A8000A776E /* NoteEditScrollView.swift in Sources */,
 				5568A19922D95696000E64CA /* ScrollView.swift in Sources */,
 				5568A1A122DB8BEC000E64CA /* MarkView.swift in Sources */,
+				55C9D38D22E51B9F000A776E /* PhotoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
