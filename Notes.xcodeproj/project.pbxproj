@@ -12,21 +12,17 @@
 		555C422322D26E0500C18D68 /* FileNotebookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555C422022D26E0500C18D68 /* FileNotebookTests.swift */; };
 		555C422422D26E0500C18D68 /* NoteExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555C422122D26E0500C18D68 /* NoteExtensionTests.swift */; };
 		555C422522D26E0500C18D68 /* NoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555C422222D26E0500C18D68 /* NoteTests.swift */; };
-		5568A19722D8EE57000E64CA /* ColorPickerViewOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5568A19622D8EE57000E64CA /* ColorPickerViewOld.swift */; };
-		5568A19922D95696000E64CA /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5568A19822D95696000E64CA /* ScrollView.swift */; };
 		5568A19E22DA9B9F000E64CA /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5568A19D22DA9B9F000E64CA /* PaletteView.swift */; };
 		5568A1A122DB8BEC000E64CA /* MarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5568A1A022DB8BEC000E64CA /* MarkView.swift */; };
 		5568A1A322DBCF26000E64CA /* PointerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5568A1A222DBCF26000E64CA /* PointerView.swift */; };
 		5568A1A522DBE6B7000E64CA /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5568A1A422DBE6B7000E64CA /* ColorExtension.swift */; };
 		5583C3FE22CBFF350053AB21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5583C3FD22CBFF350053AB21 /* AppDelegate.swift */; };
-		5583C40022CBFF350053AB21 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5583C3FF22CBFF350053AB21 /* ViewController.swift */; };
 		5583C40322CBFF350053AB21 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5583C40122CBFF350053AB21 /* Main.storyboard */; };
 		5583C40522CBFF360053AB21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5583C40422CBFF360053AB21 /* Assets.xcassets */; };
 		5583C40822CBFF360053AB21 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5583C40622CBFF360053AB21 /* LaunchScreen.storyboard */; };
 		5583C43622CC33D20053AB21 /* FileNotebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5583C43322CC33D20053AB21 /* FileNotebook.swift */; };
 		5583C43722CC33D20053AB21 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5583C43422CC33D20053AB21 /* Note.swift */; };
 		5583C43822CC33D20053AB21 /* NoteExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5583C43522CC33D20053AB21 /* NoteExtension.swift */; };
-		55A1F60C22D7E86500B400BE /* ContentVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A1F60B22D7E86500B400BE /* ContentVIew.swift */; };
 		55C75E3D22D2A07100ABFDFB /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C75E3C22D2A07100ABFDFB /* Log.swift */; };
 		55C9D37522E27DCA000A776E /* NoteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C9D37422E27DCA000A776E /* NoteListViewController.swift */; };
 		55C9D37722E27DDC000A776E /* NoteEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C9D37622E27DDC000A776E /* NoteEditViewController.swift */; };
@@ -72,15 +68,12 @@
 		555C422022D26E0500C18D68 /* FileNotebookTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileNotebookTests.swift; sourceTree = "<group>"; };
 		555C422122D26E0500C18D68 /* NoteExtensionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteExtensionTests.swift; sourceTree = "<group>"; };
 		555C422222D26E0500C18D68 /* NoteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteTests.swift; sourceTree = "<group>"; };
-		5568A19622D8EE57000E64CA /* ColorPickerViewOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewOld.swift; sourceTree = "<group>"; };
-		5568A19822D95696000E64CA /* ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
 		5568A19D22DA9B9F000E64CA /* PaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
 		5568A1A022DB8BEC000E64CA /* MarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkView.swift; sourceTree = "<group>"; };
 		5568A1A222DBCF26000E64CA /* PointerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointerView.swift; sourceTree = "<group>"; };
 		5568A1A422DBE6B7000E64CA /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		5583C3FA22CBFF350053AB21 /* Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5583C3FD22CBFF350053AB21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5583C3FF22CBFF350053AB21 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5583C40222CBFF350053AB21 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5583C40422CBFF360053AB21 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5583C40722CBFF360053AB21 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -90,7 +83,6 @@
 		5583C43322CC33D20053AB21 /* FileNotebook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileNotebook.swift; sourceTree = "<group>"; };
 		5583C43422CC33D20053AB21 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		5583C43522CC33D20053AB21 /* NoteExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteExtension.swift; sourceTree = "<group>"; };
-		55A1F60B22D7E86500B400BE /* ContentVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentVIew.swift; sourceTree = "<group>"; };
 		55C75E3C22D2A07100ABFDFB /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		55C9D37422E27DCA000A776E /* NoteListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewController.swift; sourceTree = "<group>"; };
 		55C9D37622E27DDC000A776E /* NoteEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditViewController.swift; sourceTree = "<group>"; };
@@ -141,23 +133,6 @@
 			path = NotesUITests;
 			sourceTree = "<group>";
 		};
-		5568A19C22DA99F0000E64CA /* ColorPicker */ = {
-			isa = PBXGroup;
-			children = (
-				5568A19622D8EE57000E64CA /* ColorPickerViewOld.swift */,
-			);
-			path = ColorPicker;
-			sourceTree = "<group>";
-		};
-		5568A19F22DB82DE000E64CA /* Note */ = {
-			isa = PBXGroup;
-			children = (
-				55A1F60B22D7E86500B400BE /* ContentVIew.swift */,
-				5568A19822D95696000E64CA /* ScrollView.swift */,
-			);
-			path = Note;
-			sourceTree = "<group>";
-		};
 		5583C3F122CBFF350053AB21 = {
 			isa = PBXGroup;
 			children = (
@@ -187,7 +162,6 @@
 				5583C43222CC338C0053AB21 /* Model */,
 				55A1F60A22D7E82400B400BE /* View */,
 				5583C3FD22CBFF350053AB21 /* AppDelegate.swift */,
-				5583C3FF22CBFF350053AB21 /* ViewController.swift */,
 				5583C40422CBFF360053AB21 /* Assets.xcassets */,
 				5583C40122CBFF350053AB21 /* Main.storyboard */,
 				5583C40622CBFF360053AB21 /* LaunchScreen.storyboard */,
@@ -230,8 +204,6 @@
 				5568A19D22DA9B9F000E64CA /* PaletteView.swift */,
 				55C9D38E22E51BFF000A776E /* PhotoView.swift */,
 				5568A1A222DBCF26000E64CA /* PointerView.swift */,
-				5568A19F22DB82DE000E64CA /* Note */,
-				5568A19C22DA99F0000E64CA /* ColorPicker */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -461,7 +433,6 @@
 				5568A19E22DA9B9F000E64CA /* PaletteView.swift in Sources */,
 				5583C43822CC33D20053AB21 /* NoteExtension.swift in Sources */,
 				5583C43622CC33D20053AB21 /* FileNotebook.swift in Sources */,
-				55A1F60C22D7E86500B400BE /* ContentVIew.swift in Sources */,
 				55C9D38B22E511D1000A776E /* PhotoNote.swift in Sources */,
 				55C9D38522E380B8000A776E /* ColorPickerView.swift in Sources */,
 				5568A1A322DBCF26000E64CA /* PointerView.swift in Sources */,
@@ -472,13 +443,10 @@
 				55C9D38F22E51BFF000A776E /* PhotoView.swift in Sources */,
 				55C9D37522E27DCA000A776E /* NoteListViewController.swift in Sources */,
 				5568A1A522DBE6B7000E64CA /* ColorExtension.swift in Sources */,
-				5583C40022CBFF350053AB21 /* ViewController.swift in Sources */,
-				5568A19722D8EE57000E64CA /* ColorPickerViewOld.swift in Sources */,
 				55C9D38322E3720C000A776E /* ColorPickerViewController.swift in Sources */,
 				5583C3FE22CBFF350053AB21 /* AppDelegate.swift in Sources */,
 				5583C43722CC33D20053AB21 /* Note.swift in Sources */,
 				55C9D38722E3D9A8000A776E /* NoteEditScrollView.swift in Sources */,
-				5568A19922D95696000E64CA /* ScrollView.swift in Sources */,
 				5568A1A122DB8BEC000E64CA /* MarkView.swift in Sources */,
 				55C9D38D22E51B9F000A776E /* PhotoViewController.swift in Sources */,
 			);
