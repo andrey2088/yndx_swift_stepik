@@ -52,7 +52,7 @@ class NoteListViewController: UIViewController {
             target: self,
             action: #selector(plusTapped(_:))
         )
-        notesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "tableCell")
+        notesTableView.register(TableCell.self, forCellReuseIdentifier: "tableCell")
         notesTableView.dataSource = self
         notesTableView.delegate = self
         view.addSubview(notesTableView)
@@ -96,13 +96,11 @@ class NoteListViewController: UIViewController {
 
     private func fillNotesFromFileNotebook() {
         notes = fileNotebook.getNotesArraySortedByTitle()
-        print("notes filled")
     }
 
     private func refreshTable() {
         fillNotesFromFileNotebook()
         notesTableView.reloadData()
-        print("table refreshed")
     }
 }
 
@@ -119,13 +117,14 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        let cell = TableCell(style: .subtitle, reuseIdentifier: nil)
         let note = notes[indexPath.row]
 
         cell.textLabel?.text = note.title
         cell.textLabel?.numberOfLines = 1
         cell.detailTextLabel?.text = note.content
         cell.detailTextLabel?.numberOfLines = 5
+        cell.setColor(note.color)
 
         return cell
     }
@@ -152,5 +151,32 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
             fileNotebook.saveToFile()
             refreshTable()
         }
+    }
+}
+
+
+class TableCell: UITableViewCell {
+
+    private let colorView = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupViews()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupViews()
+    }
+
+    private func setupViews() {
+        self.accessoryView = colorView
+    }
+
+    func setColor(_ color: UIColor) {
+        colorView.backgroundColor = color
+        colorView.layer.cornerRadius = 5
+        colorView.layer.borderWidth = 1
+        colorView.layer.borderColor = UIColor.gray.cgColor
     }
 }

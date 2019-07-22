@@ -87,7 +87,7 @@ class NoteEditViewController: UIViewController {
                 selfDestructDate: selfDestructDate
             )
         }
-        print("note not builded")
+
         return nil
     }
 
@@ -95,7 +95,6 @@ class NoteEditViewController: UIViewController {
         if let note = buildNoteWithEnteredData() {
             fileNotebook.add(note)
             fileNotebook.saveToFile()
-            print("note added/edited")
         }
     }
 
