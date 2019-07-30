@@ -124,6 +124,72 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		553ADE1D22F08559009C7902 /* Note */ = {
+			isa = PBXGroup;
+			children = (
+				5583C43322CC33D20053AB21 /* FileNotebook.swift */,
+				5583C43422CC33D20053AB21 /* Note.swift */,
+				5583C43522CC33D20053AB21 /* NoteExtension.swift */,
+			);
+			path = Note;
+			sourceTree = "<group>";
+		};
+		553ADE1E22F08585009C7902 /* Gallery */ = {
+			isa = PBXGroup;
+			children = (
+				55C9D38A22E511D1000A776E /* PhotoNote.swift */,
+			);
+			path = Gallery;
+			sourceTree = "<group>";
+		};
+		553ADE1F22F08599009C7902 /* NoteEdit */ = {
+			isa = PBXGroup;
+			children = (
+				553ADE2022F085A6009C7902 /* ColorPicker */,
+				5568A1A022DB8BEC000E64CA /* MarkView.swift */,
+				55C9D38622E3D9A8000A776E /* NoteEditScrollView.swift */,
+				55C9D38022E3533B000A776E /* NoteEditView.swift */,
+			);
+			path = NoteEdit;
+			sourceTree = "<group>";
+		};
+		553ADE2022F085A6009C7902 /* ColorPicker */ = {
+			isa = PBXGroup;
+			children = (
+				55C9D38422E380B8000A776E /* ColorPickerView.swift */,
+				5568A19D22DA9B9F000E64CA /* PaletteView.swift */,
+				5568A1A222DBCF26000E64CA /* PointerView.swift */,
+			);
+			path = ColorPicker;
+			sourceTree = "<group>";
+		};
+		553ADE2122F085D9009C7902 /* Gallery */ = {
+			isa = PBXGroup;
+			children = (
+				55C9D38E22E51BFF000A776E /* PhotoView.swift */,
+			);
+			path = Gallery;
+			sourceTree = "<group>";
+		};
+		553ADE2222F086A6009C7902 /* NoteEdit */ = {
+			isa = PBXGroup;
+			children = (
+				55C9D38222E3720C000A776E /* ColorPickerViewController.swift */,
+				55C9D37622E27DDC000A776E /* NoteEditViewController.swift */,
+				55C9D37422E27DCA000A776E /* NoteListViewController.swift */,
+			);
+			path = NoteEdit;
+			sourceTree = "<group>";
+		};
+		553ADE2322F086AD009C7902 /* Gallery */ = {
+			isa = PBXGroup;
+			children = (
+				55C9D37822E27E4D000A776E /* GalleryViewController.swift */,
+				55C9D38C22E51B9F000A776E /* PhotoViewController.swift */,
+			);
+			path = Gallery;
+			sourceTree = "<group>";
+		};
 		555C421622D26BDE00C18D68 /* NotesUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -184,11 +250,9 @@
 		5583C43222CC338C0053AB21 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5583C43322CC33D20053AB21 /* FileNotebook.swift */,
+				553ADE1E22F08585009C7902 /* Gallery */,
+				553ADE1D22F08559009C7902 /* Note */,
 				55C75E3C22D2A07100ABFDFB /* Log.swift */,
-				5583C43422CC33D20053AB21 /* Note.swift */,
-				5583C43522CC33D20053AB21 /* NoteExtension.swift */,
-				55C9D38A22E511D1000A776E /* PhotoNote.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -196,14 +260,9 @@
 		55A1F60A22D7E82400B400BE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				553ADE2122F085D9009C7902 /* Gallery */,
+				553ADE1F22F08599009C7902 /* NoteEdit */,
 				5568A1A422DBE6B7000E64CA /* ColorExtension.swift */,
-				55C9D38422E380B8000A776E /* ColorPickerView.swift */,
-				5568A1A022DB8BEC000E64CA /* MarkView.swift */,
-				55C9D38622E3D9A8000A776E /* NoteEditScrollView.swift */,
-				55C9D38022E3533B000A776E /* NoteEditView.swift */,
-				5568A19D22DA9B9F000E64CA /* PaletteView.swift */,
-				55C9D38E22E51BFF000A776E /* PhotoView.swift */,
-				5568A1A222DBCF26000E64CA /* PointerView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -211,11 +270,8 @@
 		55C9D37322E27B4E000A776E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				55C9D38222E3720C000A776E /* ColorPickerViewController.swift */,
-				55C9D37822E27E4D000A776E /* GalleryViewController.swift */,
-				55C9D37622E27DDC000A776E /* NoteEditViewController.swift */,
-				55C9D37422E27DCA000A776E /* NoteListViewController.swift */,
-				55C9D38C22E51B9F000A776E /* PhotoViewController.swift */,
+				553ADE2322F086AD009C7902 /* Gallery */,
+				553ADE2222F086A6009C7902 /* NoteEdit */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
