@@ -145,7 +145,6 @@
 		553ADE1F22F08599009C7902 /* NoteEdit */ = {
 			isa = PBXGroup;
 			children = (
-				553ADE2022F085A6009C7902 /* ColorPicker */,
 				5568A1A022DB8BEC000E64CA /* MarkView.swift */,
 				55C9D38622E3D9A8000A776E /* NoteEditScrollView.swift */,
 				55C9D38022E3533B000A776E /* NoteEditView.swift */,
@@ -260,6 +259,7 @@
 		55A1F60A22D7E82400B400BE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				553ADE2022F085A6009C7902 /* ColorPicker */,
 				553ADE2122F085D9009C7902 /* Gallery */,
 				553ADE1F22F08599009C7902 /* NoteEdit */,
 				5568A1A422DBE6B7000E64CA /* ColorExtension.swift */,
