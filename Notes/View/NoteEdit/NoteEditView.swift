@@ -20,12 +20,13 @@ class NoteEditView: UIView {
     internal let switchView = UISwitch()
     internal let dateView = UIDatePicker()
     private let colorsView = UIView()
-    internal let whiteColorSquare = UIView()
-    internal let redColorSquare = UIView()
-    internal let greenColorSquare = UIView()
-    internal let customColorSquare = UIView()
+    internal let whiteColorSquare = ColorSquareView()
+    internal let redColorSquare = ColorSquareView()
+    internal let greenColorSquare = ColorSquareView()
+    internal let customColorSquare = ColorSquareView()
     internal let paletteSquare = UIImageView()
-    internal var selectedColorSquare = UIView()
+    var noteColor: UIColor = UIColor.white
+    var customColorSet: Bool = false
     private let markView = MarkView(frame: CGRect.zero)
 
     private let noteTitleViewMarginTop: CGFloat = 20
@@ -55,8 +56,6 @@ class NoteEditView: UIView {
     }
 
     private func setupViews() {
-        selectedColorSquare = whiteColorSquare
-
         setupNoteUidView()
         setupNoteTitleView()
         setupNoteTextView()
@@ -171,16 +170,20 @@ class NoteEditView: UIView {
 
     private func setupSwitchView() {
         switchView.addTarget(self, action: #selector(switchViewChanged), for: UIControl.Event.valueChanged)
-        switchViewChanged()
+        setDateViewVisibility()
     }
 
     @objc private func switchViewChanged() {
+        setDateViewVisibility()
+        updateUI()
+    }
+
+    private func setDateViewVisibility() {
         if (switchView.isOn) {
             dateView.isHidden = false
         } else {
             dateView.isHidden = true
         }
-        updateUI()
     }
 
 
@@ -218,57 +221,40 @@ class NoteEditView: UIView {
             height: colorViewSide
         )
 
-        whiteColorSquare.frame = CGRect(
-            x: colorsView.bounds.minX,
-            y: colorsView.bounds.minY,
-            width: colorViewSide,
-            height: colorViewSide
-        )
-
-        redColorSquare.frame = CGRect(
-            x: whiteColorSquare.frame.maxX + colorViewMargin,
-            y: colorsView.bounds.minY,
-            width: colorViewSide,
-            height: colorViewSide
-        )
-
-        greenColorSquare.frame = CGRect(
-            x: redColorSquare.frame.maxX + colorViewMargin,
-            y: colorsView.bounds.minY,
-            width: colorViewSide,
-            height: colorViewSide
-        )
-
-        customColorSquare.frame = CGRect(
-            x: greenColorSquare.frame.maxX + colorViewMargin,
-            y: colorsView.bounds.minY,
-            width: colorViewSide,
-            height: colorViewSide
-        )
+        whiteColorSquare.setFrame(x: 0, side: colorViewSide)
+        redColorSquare.setFrame(x: colorViewSide + colorViewMargin, side: colorViewSide)
+        greenColorSquare.setFrame(x: (colorViewSide + colorViewMargin) * 2, side: colorViewSide)
+        customColorSquare.setFrame(x: (colorViewSide + colorViewMargin) * 3, side: colorViewSide)
 
         paletteSquare.frame = CGRect(
-            x: customColorSquare.bounds.minX,
-            y: customColorSquare.bounds.minY,
+            x: 0,
+            y: 0,
             width: customColorSquare.bounds.size.width,
             height: customColorSquare.bounds.size.height
         )
 
-        markView.frame.origin.x = selectedColorSquare.frame.maxX - markView.frame.height - 5
+        var selectedColorSquare = ColorSquareView()
+        switch noteColor.extendedSRGB() {
+        case whiteColorSquare.color.extendedSRGB():
+            selectedColorSquare = whiteColorSquare
+        case redColorSquare.color.extendedSRGB():
+            selectedColorSquare = redColorSquare
+        case greenColorSquare.color.extendedSRGB():
+            selectedColorSquare = greenColorSquare
+        default:
+            customColorSquare.color = noteColor
+            customColorSet = true
+            paletteSquare.isHidden = true
+            selectedColorSquare = customColorSquare
+        }
+        markView.frame.origin.x = selectedColorSquare.frame.maxX - markView.frame.width - 5
         markView.drawMark()
     }
 
     private func setupColorsViews() {
-        whiteColorSquare.layer.borderWidth = 1
-        whiteColorSquare.layer.borderColor = UIColor.black.cgColor
-        whiteColorSquare.backgroundColor = UIColor.white
-        redColorSquare.layer.borderWidth = 1
-        redColorSquare.layer.borderColor = UIColor.black.cgColor
-        redColorSquare.backgroundColor = UIColor.red
-        greenColorSquare.layer.borderWidth = 1
-        greenColorSquare.layer.borderColor = UIColor.black.cgColor
-        greenColorSquare.backgroundColor = UIColor.green
-        customColorSquare.layer.borderWidth = 1
-        customColorSquare.layer.borderColor = UIColor.black.cgColor
+        whiteColorSquare.color = UIColor.white
+        redColorSquare.color = UIColor.red
+        greenColorSquare.color = UIColor.green
 
         paletteSquare.image = UIImage(named: "palette_icon")
         paletteSquare.isUserInteractionEnabled = false
