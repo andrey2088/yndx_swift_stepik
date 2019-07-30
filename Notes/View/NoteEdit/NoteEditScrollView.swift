@@ -20,7 +20,7 @@ class NoteEditScrollView: UIScrollView {
         setupViews()
     }
 
-    override internal func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         self.contentSize.width = self.bounds.width
     }

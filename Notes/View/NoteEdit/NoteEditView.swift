@@ -13,18 +13,18 @@ class NoteEditView: UIView {
     private let portraitWidth: CGFloat = UIScreen.main.nativeBounds.width / UIScreen.main.nativeScale
     private let sideMargin: CGFloat = 15
 
-    internal let noteUidView = UITextField()
-    internal let noteTitleView = UITextField()
-    internal let noteTextView = UITextView()
+    let noteUidView = UITextField()
+    let noteTitleView = UITextField()
+    let noteTextView = UITextView()
     private let switchLabelView = UILabel()
-    internal let switchView = UISwitch()
-    internal let dateView = UIDatePicker()
+    let switchView = UISwitch()
+    let dateView = UIDatePicker()
     private let colorsView = UIView()
-    internal let whiteColorSquare = ColorSquareView()
-    internal let redColorSquare = ColorSquareView()
-    internal let greenColorSquare = ColorSquareView()
-    internal let customColorSquare = ColorSquareView()
-    internal let paletteSquare = UIImageView()
+    let whiteColorSquare = ColorSquareView()
+    let redColorSquare = ColorSquareView()
+    let greenColorSquare = ColorSquareView()
+    let customColorSquare = ColorSquareView()
+    let paletteSquare = UIImageView()
     var noteColor: UIColor = UIColor.white
     var customColorSet: Bool = false
     private let markView = MarkView(frame: CGRect.zero)
@@ -37,7 +37,7 @@ class NoteEditView: UIView {
     private let colorsViewMarginTop: CGFloat = 10
     private var colorsViewMarginLeft: CGFloat = 0
 
-    internal var colorPickerView = ColorPickerView(frame: CGRect.zero)
+    var colorPickerView = ColorPickerView(frame: CGRect.zero)
     
 
     override init(frame: CGRect) {
@@ -50,7 +50,7 @@ class NoteEditView: UIView {
         setupViews()
     }
 
-    override internal func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         updateUI()
     }
@@ -73,7 +73,7 @@ class NoteEditView: UIView {
         self.addSubview(colorsView)
     }
 
-    internal func updateUI() {
+    func updateUI() {
         adjustNoteTitleViewLayout()
         adjustNoteTextViewLayout()
         adjustSwitchLabelViewLayout()

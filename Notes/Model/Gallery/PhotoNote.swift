@@ -9,10 +9,10 @@
 import UIKit
 
 struct PhotoNote {
-    internal let uid: String
-    internal let photo: UIImage
+    let uid: String
+    let photo: UIImage
 
-    internal init(photo: UIImage) {
+    init(photo: UIImage) {
         uid = UUID().uuidString
         self.photo = photo
     }

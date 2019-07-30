@@ -15,12 +15,12 @@ class ColorPickerView: UIView {
     private let cornerRadius: CGFloat = 7
 
     private let selectedView = UIView()
-    internal let selectedColorView = UIView()
-    internal let selectedHexLabel = UILabel()
-    internal let brightnessSlider = UISlider()
+    let selectedColorView = UIView()
+    let selectedHexLabel = UILabel()
+    let brightnessSlider = UISlider()
     private let brightnessLabel = UILabel()
-    internal let paletteView = PaletteView(frame: CGRect.zero)
-    internal let doneButton = UIButton()
+    let paletteView = PaletteView(frame: CGRect.zero)
+    let doneButton = UIButton()
 
     private let selectedViewMarginTop: CGFloat = 10
     private let selectedViewMarginRight: CGFloat = 20
@@ -41,7 +41,7 @@ class ColorPickerView: UIView {
         setupViews()
     }
 
-    override internal func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
 
         adjustSelectedViewsLayout()

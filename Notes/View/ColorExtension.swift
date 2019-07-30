@@ -1,6 +1,6 @@
 import UIKit
 
-internal extension UIColor {
+extension UIColor {
     func withBrightness(_ brightness: CGFloat) -> UIColor {
         var h: CGFloat = 0, s: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
 

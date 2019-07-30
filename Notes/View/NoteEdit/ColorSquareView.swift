@@ -26,10 +26,6 @@ class ColorSquareView: UIView {
         setupViews()
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-    }
-
     func setFrame(x: CGFloat, side: CGFloat) {
         frame = CGRect(
             x: x,

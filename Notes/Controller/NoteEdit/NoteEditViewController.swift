@@ -17,19 +17,19 @@ class NoteEditViewController: UIViewController {
     private let noteEditView = NoteEditView(frame: CGRect.zero)
 
     private var keyboardHeight: CGFloat = 0
-    internal var editingNoteUid: String? = nil
+    var editingNoteUid: String? = nil
 
-    override internal func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
     }
 
-    override internal func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         adjustLayouts()
     }
 
-    override internal func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if (self.isMovingToParent) {
             self.tabBarController?.tabBar.isHidden = true
             fillViewWithFileNotebookDataIfPossible()

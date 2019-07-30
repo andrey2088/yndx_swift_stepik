@@ -6,7 +6,7 @@ class PaletteView: UIView {
 
     private var elementSize: CGFloat = 1
     private var brightness: CGFloat = 1
-    internal var pickedColor: UIColor = UIColor.white
+    var pickedColor: UIColor = UIColor.white
 
     private let pointerView = PointerView(frame: CGRect.zero)
 
@@ -20,7 +20,7 @@ class PaletteView: UIView {
         setup()
     }
 
-    override internal func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
 
         let point = getPointOfColor(pickedColor)
@@ -46,7 +46,7 @@ class PaletteView: UIView {
         self.addSubview(pointerView)
     }
 
-    override internal func draw(_ rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         super.draw(rect)
 
         let context = UIGraphicsGetCurrentContext()

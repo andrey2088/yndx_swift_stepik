@@ -30,7 +30,7 @@ class MarkView: UIView {
     }
 
 
-    override internal func draw(_ rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         super.draw(rect)
 
         switch state {

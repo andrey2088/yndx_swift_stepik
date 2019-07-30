@@ -28,7 +28,7 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
         setupViews()
     }
 
-    override internal func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         adjustLayouts()
     }

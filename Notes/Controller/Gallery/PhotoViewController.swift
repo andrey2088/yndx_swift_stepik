@@ -12,17 +12,17 @@ class PhotoViewController: UIViewController {
 
     private let photoView = PhotoView()
 
-    override internal func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
     }
 
-    override internal func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         photoView.frame = view.safeAreaLayoutGuide.layoutFrame
     }
 
-    override internal func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if (self.isMovingToParent) {
             self.tabBarController?.tabBar.isHidden = true
         }
@@ -39,7 +39,7 @@ class PhotoViewController: UIViewController {
         photoView.viewWillTransition()
     }
 
-    internal func setCurrentPhoto(index: Int) {
+    func setCurrentPhoto(index: Int) {
         photoView.pageSelected = index
     }
 

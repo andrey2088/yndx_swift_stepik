@@ -23,12 +23,12 @@ class NoteListViewController: UIViewController {
         setupViews()
     }
 
-    override internal func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         adjustLayouts()
     }
 
-    override internal func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if (self.isMovingToParent) {
             fillNotesFromFileNotebook()
         } else {

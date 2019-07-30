@@ -22,19 +22,19 @@ class ColorPickerViewController: UIViewController {
         }
     }
 
-    internal var onDoneButtonTapped: ((_ color: UIColor) -> ())?
+    var onDoneButtonTapped: ((_ color: UIColor) -> ())?
 
-    override internal func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
     }
 
-    override internal func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         adjustLayouts()
     }
 
-    override internal func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if (self.isMovingToParent) {
             self.navigationController?.isNavigationBarHidden = true
         }
@@ -67,7 +67,7 @@ class ColorPickerViewController: UIViewController {
         selectedColor = self.pickedColor.withBrightness(self.brightness)
     }
 
-    internal func setSelectedColor(_ color: UIColor) {
+    func setSelectedColor(_ color: UIColor) {
         let brightness: CGFloat? = color.getBrightnessValue()
         if (brightness == nil) {
             return

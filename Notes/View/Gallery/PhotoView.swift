@@ -12,7 +12,7 @@ class PhotoView: UIScrollView {
 
     private var photoNotes: [PhotoNote] = PhotoNote.allPhotoNotes
     private var imageViews = [UIImageView]()
-    internal var pageSelected: Int = 0
+    var pageSelected: Int = 0
     private var transition: Bool = true
 
     override init(frame: CGRect) {
@@ -25,12 +25,12 @@ class PhotoView: UIScrollView {
         setupViews()
     }
 
-    override internal func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         adjustLayouts()
     }
 
-    internal func viewWillTransition() {
+    func viewWillTransition() {
         transition = true
     }
 
