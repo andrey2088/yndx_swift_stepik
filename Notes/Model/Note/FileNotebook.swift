@@ -24,6 +24,10 @@ public class FileNotebook {
         self.notes.removeValue(forKey: uid)
     }
 
+    public func replace(_ notes: [String: Note]) {
+        self.notes = notes
+    }
+
 
     public func saveToFile() {
         do {
@@ -62,19 +66,6 @@ public class FileNotebook {
     public func clearFile() {
         self.notes = [:]
         self.saveToFile()
-    }
-
-
-    public func getNotesArraySortedByTitle() -> [Note] {
-        var notesArr: [Note] = []
-
-        for note in notes {
-            notesArr.append(note.value)
-        }
-
-        notesArr.sort(by: { $0.title < $1.title })
-
-        return notesArr
     }
 
 

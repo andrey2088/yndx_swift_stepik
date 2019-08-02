@@ -95,7 +95,15 @@ class NoteListViewController: UIViewController {
     }
 
     private func fillNotesFromFileNotebook() {
-        notes = fileNotebook.getNotesArraySortedByTitle()
+        var notesArr: [Note] = []
+
+        for note in fileNotebook.notes {
+            notesArr.append(note.value)
+        }
+
+        notesArr.sort(by: { $0.title < $1.title })
+
+        notes = notesArr
     }
 
     private func refreshTable() {
