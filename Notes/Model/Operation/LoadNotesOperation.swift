@@ -55,6 +55,7 @@ class LoadNoteOperation: AsyncOperation {
     }
 
     override func main() {
+        print("OP: Load notes")
         switch loadBackend.result! {
         case .success:
             result = true

@@ -44,6 +44,7 @@ class RemoveNoteOperation: AsyncOperation {
     }
 
     override func main() {
+        print("OP: Remove note")
         switch saveBackend.result! {
         case .success:
             result = true

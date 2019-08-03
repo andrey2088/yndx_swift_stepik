@@ -44,6 +44,7 @@ class SaveNoteOperation: AsyncOperation {
     }
 
     override func main() {
+        print("OP: Save note")
         switch saveBackend.result! {
         case .success:
             result = true

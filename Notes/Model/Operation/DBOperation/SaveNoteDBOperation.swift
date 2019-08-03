@@ -20,7 +20,7 @@ class SaveNoteDBOperation: BaseDBOperation {
     override func main() {
         notebook.add(note)
         notebook.saveToFile()
-        print("DB save note")
+        print("OP: DB save")
         finish()
     }
 }

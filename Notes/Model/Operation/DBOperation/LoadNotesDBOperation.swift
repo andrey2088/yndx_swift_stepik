@@ -17,7 +17,7 @@ class LoadNotesDBOperation: BaseDBOperation {
 
     override func main() {
         notebook = FileNotebook()
-        print("DB load")
+        print("OP: DB load")
         finish()
     }
 }

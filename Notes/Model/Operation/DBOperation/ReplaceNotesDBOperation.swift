@@ -19,7 +19,7 @@ class ReplaceNotesDBOperation: BaseDBOperation {
 
     override func main() {
         notebook.replace(notesToReplace)
-        print("DB replace all notes")
+        print("OP: DB replace")
         finish()
     }
 }
