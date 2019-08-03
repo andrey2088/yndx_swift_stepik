@@ -14,8 +14,7 @@ class NoteListViewController: UIViewController {
     private let dbQueue = OperationQueue()
     private let commonQueue = OperationQueue()
 
-    private var fileNotebook = FileNotebook()
-    private var notes: [String: Note] = [:]
+    private var fileNotebook: FileNotebook? = nil
     private var notesArr: [Note] = []
 
     let notesTableView = UITableView()
@@ -114,14 +113,13 @@ extension NoteListViewController: NoteAddDelegate {
     func addNote(note: Note) {
         let saveNoteOp = SaveNoteOperation(
             note: note,
-            notebook: fileNotebook,
+            notebook: fileNotebook!,
             backendQueue: backendQueue,
             dbQueue: dbQueue
         )
         let handleDataOp = BlockOperation() { [unowned saveNoteOp, unowned self] in
             self.fileNotebook = saveNoteOp.notebook
-            self.notes = self.fileNotebook.notes
-            self.notesArr = self.convertNotesToArray(notes: self.notes)
+            self.notesArr = self.convertNotesToArray(notes: self.fileNotebook!.notes)
         }
 
         handleDataOp.addDependency(saveNoteOp)
@@ -135,14 +133,13 @@ extension NoteListViewController: NoteAddDelegate {
     private func removeNote(note: Note) {
         let removeNoteOp = RemoveNoteOperation(
             note: note,
-            notebook: fileNotebook,
+            notebook: fileNotebook!,
             backendQueue: backendQueue,
             dbQueue: dbQueue
         )
         let handleDataOp = BlockOperation() { [unowned removeNoteOp, unowned self] in
             self.fileNotebook = removeNoteOp.notebook
-            self.notes = self.fileNotebook.notes
-            self.notesArr = self.convertNotesToArray(notes: self.notes)
+            self.notesArr = self.convertNotesToArray(notes: self.fileNotebook!.notes)
         }
 
         handleDataOp.addDependency(removeNoteOp)
@@ -157,8 +154,7 @@ extension NoteListViewController: NoteAddDelegate {
         let loadNotesOp = LoadNotesOperation(backendQueue: backendQueue, dbQueue: dbQueue)
         let handleDataOp = BlockOperation() { [unowned loadNotesOp, unowned self] in
             self.fileNotebook = loadNotesOp.notebook!
-            self.notes = self.fileNotebook.notes
-            self.notesArr = self.convertNotesToArray(notes: self.notes)
+            self.notesArr = self.convertNotesToArray(notes: self.fileNotebook!.notes)
         }
 
         handleDataOp.addDependency(loadNotesOp)
