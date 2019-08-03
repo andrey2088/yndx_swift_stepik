@@ -1,5 +1,5 @@
 //
-//  EditViewController.swift
+//  NoteEditViewController.swift
 //  Notes
 //
 //  Created by andrey on 2019-07-20.
@@ -10,14 +10,14 @@ import UIKit
 
 class NoteEditViewController: UIViewController {
 
-    private let fileNotebook = FileNotebook()
-
     private let colorPickerViewController = ColorPickerViewController()
     private let noteEditScrollView = NoteEditScrollView(frame: CGRect.zero)
     private let noteEditView = NoteEditView(frame: CGRect.zero)
 
     private var keyboardHeight: CGFloat = 0
-    var editingNoteUid: String? = nil
+    var note: Note? = nil
+    var noteAddDelegate: NoteAddDelegate? = nil
+    //var onNoteToAdd: ((_ note: Note) -> ())?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,14 +32,14 @@ class NoteEditViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         if (self.isMovingToParent) {
             self.tabBarController?.tabBar.isHidden = true
-            fillViewWithFileNotebookDataIfPossible()
+            loadNoteIfPossible()
         }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         if (self.isMovingFromParent) {
             self.tabBarController?.tabBar.isHidden = false
-            addNoteToFileNotebookIfPossible()
+            addNoteIfPossible()
         }
     }
 
@@ -88,19 +88,17 @@ class NoteEditViewController: UIViewController {
         return nil
     }
 
-    private func addNoteToFileNotebookIfPossible() {
-        if let note = buildNoteWithEnteredData() {
-            fileNotebook.add(note)
-            fileNotebook.saveToFile()
+    private func addNoteIfPossible() {
+        if
+            let note = buildNoteWithEnteredData(),
+            noteAddDelegate != nil
+        {
+            print("note add initiated")
+            noteAddDelegate!.addNote(note: note)
         }
     }
 
-    private func fillViewWithFileNotebookDataIfPossible() {
-        if (editingNoteUid == nil) {
-            return
-        }
-
-        let note = fileNotebook.notes[editingNoteUid!]
+    private func loadNoteIfPossible() {
         if (note == nil) {
             return
         }
@@ -209,4 +207,8 @@ class NoteEditViewController: UIViewController {
         keyboardHeight = 0
         adjustLayouts()
     }
+}
+
+protocol NoteAddDelegate {
+    func addNote(note: Note)
 }

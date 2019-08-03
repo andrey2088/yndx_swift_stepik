@@ -1,5 +1,5 @@
 //
-//  ListViewController.swift
+//  NoteListViewController.swift
 //  Notes
 //
 //  Created by andrey on 2019-07-20.
@@ -10,13 +10,13 @@ import UIKit
 
 class NoteListViewController: UIViewController {
 
-    private let editButtonText = "Edit"
-    private let cancelEditButtonText = "Cancel"
-
     private let fileNotebook = FileNotebook()
     private var notes: [Note] = []
 
     let notesTableView = UITableView()
+
+    private let editButtonText = "Edit"
+    private let cancelEditButtonText = "Cancel"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,9 +29,9 @@ class NoteListViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        if (self.isMovingToParent) {
-            fillNotesFromFileNotebook()
-        } else {
+        if (self.isMovingToParent) { // Controller created
+            loadNotes()
+        } else { // Return from note edit screen or other tab
             fileNotebook.loadFromFile()
             print("fileNotebook loaded")
             refreshTable()
@@ -84,17 +84,18 @@ class NoteListViewController: UIViewController {
         showNoteEditViewController()
     }
 
-    private func showNoteEditViewController(editingNoteUid: String? = nil) {
+    private func showNoteEditViewController(note: Note? = nil) {
         let noteEditViewController = NoteEditViewController()
 
-        if (editingNoteUid != nil) {
-            noteEditViewController.editingNoteUid = editingNoteUid
+        if (note != nil) {
+            noteEditViewController.note = note
         }
+        noteEditViewController.noteAddDelegate = self
 
         self.navigationController?.pushViewController(noteEditViewController, animated: true)
     }
 
-    private func fillNotesFromFileNotebook() {
+    private func loadNotes() {
         var notesArr: [Note] = []
 
         for note in fileNotebook.notes {
@@ -107,12 +108,29 @@ class NoteListViewController: UIViewController {
     }
 
     private func refreshTable() {
-        fillNotesFromFileNotebook()
+        loadNotes()
         notesTableView.reloadData()
     }
 }
 
 
+extension NoteListViewController: NoteAddDelegate {
+
+    func addNote(note: Note) {
+        fileNotebook.add(note)
+        fileNotebook.saveToFile()
+        print("note added")
+    }
+}
+
+
+// Data handling
+extension NoteListViewController {
+
+}
+
+
+// Table
 extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -142,7 +160,7 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        showNoteEditViewController(editingNoteUid: notes[indexPath.row].uid)
+        showNoteEditViewController(note: notes[indexPath.row])
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
