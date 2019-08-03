@@ -10,8 +10,13 @@ import UIKit
 
 class NoteListViewController: UIViewController {
 
-    private let fileNotebook = FileNotebook()
-    private var notes: [Note] = []
+    private let backendQueue = OperationQueue()
+    private let dbQueue = OperationQueue()
+    private let commonQueue = OperationQueue()
+
+    private var fileNotebook = FileNotebook()
+    private var notes: [String: Note] = [:]
+    private var notesArr: [Note] = []
 
     let notesTableView = UITableView()
 
@@ -32,9 +37,7 @@ class NoteListViewController: UIViewController {
         if (self.isMovingToParent) { // Controller created
             loadNotes()
         } else { // Return from note edit screen or other tab
-            fileNotebook.loadFromFile()
-            print("fileNotebook loaded")
-            refreshTable()
+
         }
     }
 
@@ -95,41 +98,93 @@ class NoteListViewController: UIViewController {
         self.navigationController?.pushViewController(noteEditViewController, animated: true)
     }
 
-    private func loadNotes() {
-        var notesArr: [Note] = []
-
-        for note in fileNotebook.notes {
-            notesArr.append(note.value)
+    private func refreshTable(dependencyOp: Operation) {
+        let refreshTableOp = BlockOperation() { [unowned self] in
+            print("OP: refresh table")
+            self.notesTableView.reloadData()
         }
 
-        notesArr.sort(by: { $0.title < $1.title })
-
-        notes = notesArr
-    }
-
-    private func refreshTable() {
-        loadNotes()
-        notesTableView.reloadData()
-    }
-}
-
-
-extension NoteListViewController: NoteAddDelegate {
-
-    func addNote(note: Note) {
-        fileNotebook.add(note)
-        fileNotebook.saveToFile()
+        refreshTableOp.addDependency(dependencyOp)
+        OperationQueue.main.addOperation(refreshTableOp)
     }
 }
 
 
 // Data handling
-extension NoteListViewController {
+extension NoteListViewController: NoteAddDelegate {
 
+    func addNote(note: Note) {
+        let saveNoteOp = SaveNoteOperation(
+            note: note,
+            notebook: fileNotebook,
+            backendQueue: backendQueue,
+            dbQueue: dbQueue
+        )
+        let handleDataOp = BlockOperation() { [unowned saveNoteOp, unowned self] in
+            self.fileNotebook = saveNoteOp.notebook
+            self.notes = self.fileNotebook.notes
+            self.notesArr = self.convertNotesToArray(notes: self.notes)
+        }
+
+        handleDataOp.addDependency(saveNoteOp)
+
+        commonQueue.addOperation(saveNoteOp)
+        commonQueue.addOperation(handleDataOp)
+
+        refreshTable(dependencyOp: handleDataOp)
+    }
+
+    private func removeNote(note: Note) {
+        let removeNoteOp = RemoveNoteOperation(
+            note: note,
+            notebook: fileNotebook,
+            backendQueue: backendQueue,
+            dbQueue: dbQueue
+        )
+        let handleDataOp = BlockOperation() { [unowned removeNoteOp, unowned self] in
+            self.fileNotebook = removeNoteOp.notebook
+            self.notes = self.fileNotebook.notes
+            self.notesArr = self.convertNotesToArray(notes: self.notes)
+        }
+
+        handleDataOp.addDependency(removeNoteOp)
+
+        commonQueue.addOperation(removeNoteOp)
+        commonQueue.addOperation(handleDataOp)
+
+        refreshTable(dependencyOp: handleDataOp)
+    }
+
+    private func loadNotes() {
+        let loadNotesOp = LoadNotesOperation(backendQueue: backendQueue, dbQueue: dbQueue)
+        let handleDataOp = BlockOperation() { [unowned loadNotesOp, unowned self] in
+            self.fileNotebook = loadNotesOp.notebook!
+            self.notes = self.fileNotebook.notes
+            self.notesArr = self.convertNotesToArray(notes: self.notes)
+        }
+
+        handleDataOp.addDependency(loadNotesOp)
+
+        commonQueue.addOperation(loadNotesOp)
+        commonQueue.addOperation(handleDataOp)
+
+        refreshTable(dependencyOp: handleDataOp)
+    }
+
+    private func convertNotesToArray(notes: [String: Note]) -> [Note] {
+        var notesArr: [Note] = []
+
+        for note in notes {
+            notesArr.append(note.value)
+        }
+
+        notesArr.sort(by: { $0.title < $1.title })
+
+        return notesArr
+    }
 }
 
 
-// Table
 extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -137,13 +192,13 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fileNotebook.notes.count
+        return notesArr.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = TableCell(style: .subtitle, reuseIdentifier: nil)
-        let note = notes[indexPath.row]
+        let note = notesArr[indexPath.row]
 
         cell.textLabel?.text = note.title
         cell.textLabel?.numberOfLines = 1
@@ -159,7 +214,7 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        showNoteEditViewController(note: notes[indexPath.row])
+        showNoteEditViewController(note: notesArr[indexPath.row])
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -172,9 +227,7 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
         forRowAt indexPath: IndexPath
     ) {
         if (editingStyle == .delete) {
-            fileNotebook.remove(with: notes[indexPath.row].uid)
-            fileNotebook.saveToFile()
-            refreshTable()
+            removeNote(note: notesArr[indexPath.row])
         }
     }
 }

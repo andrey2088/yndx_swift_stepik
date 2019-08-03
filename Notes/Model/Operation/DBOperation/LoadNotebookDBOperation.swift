@@ -1,5 +1,5 @@
 //
-//  LoadNotesDBOperation.swift
+//  LoadNotebookDBOperation.swift
 //  Notes
 //
 //  Created by andrey on 2019-07-31.
@@ -8,12 +8,9 @@
 
 import Foundation
 
-class LoadNotesDBOperation: BaseDBOperation {
+class LoadNotebookDBOperation: BaseDBOperation {
 
-    init() {
-        let notebook = FileNotebook()
-        super.init(notebook: notebook)
-    }
+    var notebook: FileNotebook? = nil
 
     override func main() {
         notebook = FileNotebook()

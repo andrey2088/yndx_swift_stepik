@@ -10,15 +10,18 @@ import Foundation
 
 class ReplaceNotesDBOperation: BaseDBOperation {
 
+    var notebook: FileNotebook
     var notesToReplace: [String: Note]
 
     init(notesToReplace: [String: Note], notebook: FileNotebook) {
+        self.notebook = notebook
         self.notesToReplace = notesToReplace
-        super.init(notebook: FileNotebook())
+        super.init()
     }
 
     override func main() {
         notebook.replace(notesToReplace)
+        notebook.saveToFile()
         print("OP: DB replace")
         finish()
     }

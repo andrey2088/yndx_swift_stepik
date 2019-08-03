@@ -9,12 +9,14 @@
 import Foundation
 
 class SaveNoteDBOperation: BaseDBOperation {
-    
+
+    private let notebook: FileNotebook
     private let note: Note
 
     init(note: Note, notebook: FileNotebook) {
+        self.notebook = notebook
         self.note = note
-        super.init(notebook: notebook)
+        super.init()
     }
 
     override func main() {
