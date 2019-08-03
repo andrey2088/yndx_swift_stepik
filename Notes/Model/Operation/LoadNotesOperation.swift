@@ -38,7 +38,7 @@ class LoadNotesOperation: AsyncOperation {
 
             switch loadBackend.result! {
             case .success:
-                self.replaceDb = ReplaceNotesDBOperation(notesToReplace: [:], notebook: self.notebook!)
+                self.replaceDb = ReplaceNotesDBOperation(notesToReplace: loadBackend.notes, notebook: self.notebook!)
             case .failure:
                 self.replaceDb.cancel()
             }

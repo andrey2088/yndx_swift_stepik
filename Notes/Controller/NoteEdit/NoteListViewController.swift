@@ -34,10 +34,8 @@ class NoteListViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        if (self.isMovingToParent) { // Controller created
+        if (self.isMovingToParent) {
             loadNotes()
-        } else { // Return from note edit screen or other tab
-
         }
     }
 
@@ -185,6 +183,7 @@ extension NoteListViewController: NoteAddDelegate {
 }
 
 
+// Table
 extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {
