@@ -119,7 +119,6 @@ extension NoteListViewController: NoteAddDelegate {
     func addNote(note: Note) {
         fileNotebook.add(note)
         fileNotebook.saveToFile()
-        print("note added")
     }
 }
 

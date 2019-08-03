@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol NoteAddDelegate {
+    func addNote(note: Note)
+}
+
 class NoteEditViewController: UIViewController {
 
     private let colorPickerViewController = ColorPickerViewController()
@@ -17,7 +21,6 @@ class NoteEditViewController: UIViewController {
     private var keyboardHeight: CGFloat = 0
     var note: Note? = nil
     var noteAddDelegate: NoteAddDelegate? = nil
-    //var onNoteToAdd: ((_ note: Note) -> ())?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,11 +58,6 @@ class NoteEditViewController: UIViewController {
         noteEditScrollView.addSubview(noteEditView)
         detectKeyboardEvents()
         colorsSquaresTaps()
-
-        colorPickerViewController.onDoneButtonTapped = { [weak self] color in DispatchQueue.main.async {
-            self?.noteEditView.noteColor = color
-            self?.noteEditView.updateUI()
-        }}
     }
 
     private func adjustLayouts() {
@@ -93,7 +91,6 @@ class NoteEditViewController: UIViewController {
             let note = buildNoteWithEnteredData(),
             noteAddDelegate != nil
         {
-            print("note add initiated")
             noteAddDelegate!.addNote(note: note)
         }
     }
@@ -165,6 +162,7 @@ class NoteEditViewController: UIViewController {
     private func showColorPickerViewController() {
         view.endEditing(true)
         colorPickerViewController.setSelectedColor(noteEditView.noteColor)
+        colorPickerViewController.colorPickDelegate = self
         self.navigationController?.pushViewController(colorPickerViewController, animated: false)
     }
 
@@ -209,6 +207,11 @@ class NoteEditViewController: UIViewController {
     }
 }
 
-protocol NoteAddDelegate {
-    func addNote(note: Note)
+
+extension NoteEditViewController: ColorPickDelegate {
+
+    func didColorPicked(color: UIColor) {
+        noteEditView.noteColor = color
+        noteEditView.updateUI()
+    }
 }

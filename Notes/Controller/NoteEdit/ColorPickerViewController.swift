@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol ColorPickDelegate {
+    func didColorPicked(color: UIColor)
+}
+
 class ColorPickerViewController: UIViewController {
 
     private let colorPickerView = ColorPickerView()
@@ -22,7 +26,7 @@ class ColorPickerViewController: UIViewController {
         }
     }
 
-    var onDoneButtonTapped: ((_ color: UIColor) -> ())?
+    var colorPickDelegate: ColorPickDelegate? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,7 +102,7 @@ class ColorPickerViewController: UIViewController {
 
     @objc private func doneButtonTapped() {
         let color: UIColor = selectedColor
-        self.onDoneButtonTapped?(color)
+        colorPickDelegate?.didColorPicked(color: color)
         self.navigationController?.popViewController(animated: false)
     }
 }
