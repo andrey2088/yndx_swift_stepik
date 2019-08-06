@@ -14,6 +14,10 @@ class LoadNotebookDBOperation: BaseDBOperation {
 
     override func main() {
         notebook = FileNotebook()
+        if let notebook = notebook {
+            notebook.loadFromFile()
+        }
+        
         print("OP: DB load")
         finish()
     }

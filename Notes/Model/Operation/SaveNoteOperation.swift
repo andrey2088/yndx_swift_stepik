@@ -27,7 +27,7 @@ class SaveNoteOperation: AsyncOperation {
         self.dbQueue = dbQueue
 
         saveDb = SaveNoteDBOperation(note: note, notebook: notebook)
-        saveBackend = SaveNotesBackendOperation(notes: notebook.notes)
+        saveBackend = SaveNotesBackendOperation(notebook: notebook)
 
         super.init()
     }
@@ -37,7 +37,7 @@ class SaveNoteOperation: AsyncOperation {
 
         let notebook = self.notebook
         let adapter = BlockOperation() { [unowned saveBackend, unowned notebook] in
-            saveBackend.notes = notebook.notes
+            saveBackend.notebook = notebook
         }
 
         adapter.addDependency(saveDb)

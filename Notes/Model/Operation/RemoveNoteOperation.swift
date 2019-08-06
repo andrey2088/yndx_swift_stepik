@@ -27,7 +27,7 @@ class RemoveNoteOperation: AsyncOperation {
         self.dbQueue = dbQueue
 
         removeDb = RemoveNoteDBOperation(note: note, notebook: notebook)
-        saveBackend = SaveNotesBackendOperation(notes: notebook.notes)
+        saveBackend = SaveNotesBackendOperation(notebook: notebook)
 
         super.init()
     }
@@ -37,7 +37,7 @@ class RemoveNoteOperation: AsyncOperation {
 
         let notebook = self.notebook
         let adapter = BlockOperation() { [unowned saveBackend, unowned notebook] in
-            saveBackend.notes = notebook.notes
+            saveBackend.notebook = notebook
         }
 
         adapter.addDependency(removeDb)

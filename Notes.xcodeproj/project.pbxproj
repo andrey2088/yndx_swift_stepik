@@ -25,6 +25,7 @@
 		555C422322D26E0500C18D68 /* FileNotebookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555C422022D26E0500C18D68 /* FileNotebookTests.swift */; };
 		555C422422D26E0500C18D68 /* NoteExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555C422122D26E0500C18D68 /* NoteExtensionTests.swift */; };
 		555C422522D26E0500C18D68 /* NoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555C422222D26E0500C18D68 /* NoteTests.swift */; };
+		5568813722F9BFC500C01361 /* Gist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5568813622F9BFC500C01361 /* Gist.swift */; };
 		5568A19E22DA9B9F000E64CA /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5568A19D22DA9B9F000E64CA /* PaletteView.swift */; };
 		5568A1A122DB8BEC000E64CA /* MarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5568A1A022DB8BEC000E64CA /* MarkView.swift */; };
 		5568A1A322DBCF26000E64CA /* PointerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5568A1A222DBCF26000E64CA /* PointerView.swift */; };
@@ -94,6 +95,7 @@
 		555C422022D26E0500C18D68 /* FileNotebookTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileNotebookTests.swift; sourceTree = "<group>"; };
 		555C422122D26E0500C18D68 /* NoteExtensionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteExtensionTests.swift; sourceTree = "<group>"; };
 		555C422222D26E0500C18D68 /* NoteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteTests.swift; sourceTree = "<group>"; };
+		5568813622F9BFC500C01361 /* Gist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gist.swift; sourceTree = "<group>"; };
 		5568A19D22DA9B9F000E64CA /* PaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
 		5568A1A022DB8BEC000E64CA /* MarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkView.swift; sourceTree = "<group>"; };
 		5568A1A222DBCF26000E64CA /* PointerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointerView.swift; sourceTree = "<group>"; };
@@ -260,6 +262,14 @@
 			path = NotesUITests;
 			sourceTree = "<group>";
 		};
+		5568813522F9BF8A00C01361 /* Gist */ = {
+			isa = PBXGroup;
+			children = (
+				5568813622F9BFC500C01361 /* Gist.swift */,
+			);
+			path = Gist;
+			sourceTree = "<group>";
+		};
 		5583C3F122CBFF350053AB21 = {
 			isa = PBXGroup;
 			children = (
@@ -312,6 +322,7 @@
 			isa = PBXGroup;
 			children = (
 				553ADE1E22F08585009C7902 /* Gallery */,
+				5568813522F9BF8A00C01361 /* Gist */,
 				553ADE1D22F08559009C7902 /* Note */,
 				553ADE2622F0CE8D009C7902 /* Operation */,
 				55C75E3C22D2A07100ABFDFB /* Log.swift */,
@@ -551,6 +562,7 @@
 			files = (
 				553ADE3022F1951E009C7902 /* SaveNoteDBOperation.swift in Sources */,
 				5568A19E22DA9B9F000E64CA /* PaletteView.swift in Sources */,
+				5568813722F9BFC500C01361 /* Gist.swift in Sources */,
 				5583C43822CC33D20053AB21 /* NoteExtension.swift in Sources */,
 				5583C43622CC33D20053AB21 /* FileNotebook.swift in Sources */,
 				553ADE4022F4D2C4009C7902 /* ReplaceNotesDBOperation.swift in Sources */,

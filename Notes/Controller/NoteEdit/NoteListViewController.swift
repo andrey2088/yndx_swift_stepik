@@ -17,10 +17,12 @@ class NoteListViewController: UIViewController {
     private var fileNotebook: FileNotebook? = nil
     private var notesArr: [Note] = []
 
-    let notesTableView = UITableView()
+    private let notesTableView = UITableView()
 
     private let editButtonText = "Edit"
     private let cancelEditButtonText = "Cancel"
+
+    var refreshControl: UIRefreshControl!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +57,12 @@ class NoteListViewController: UIViewController {
         notesTableView.register(TableCell.self, forCellReuseIdentifier: "tableCell")
         notesTableView.dataSource = self
         notesTableView.delegate = self
+
+        refreshControl = UIRefreshControl()
+        //refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        notesTableView.addSubview(refreshControl)
+
         view.addSubview(notesTableView)
     }
 
@@ -103,6 +111,11 @@ class NoteListViewController: UIViewController {
 
         refreshTableOp.addDependency(dependencyOp)
         OperationQueue.main.addOperation(refreshTableOp)
+    }
+
+    @objc func pullToRefresh(_ sender: Any) {
+        loadNotes()
+        refreshControl.endRefreshing()
     }
 }
 

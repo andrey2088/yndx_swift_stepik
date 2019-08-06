@@ -22,6 +22,7 @@ class ReplaceNotesDBOperation: BaseDBOperation {
     override func main() {
         notebook.replace(notesToReplace)
         notebook.saveToFile()
+        
         print("OP: DB replace")
         finish()
     }

@@ -1,17 +1,24 @@
 import UIKit
 
 public class FileNotebook {
-    private let dirname: String = "notebook_files"
-    private let filename: String = "notes.js"
+
+    private let localAddress: String = "notebook_files"
+    var gistId: String? = nil
+    private let filename: String = "ios-course-notes-db.json"
+
     public private(set) var notes: [String: Note] = [:]
 
 
-    public init (/*filename: String*/) {
-        //self.filename = filename
-        self.loadFromFile()
+    public init() {}
+
+    init(notes: [String: Note], gistId: String? = nil) {
+        self.notes = notes
+        if let gistId = gistId {
+            self.gistId = gistId
+        }
     }
 
-    // Note with existing id will be replaced
+
     public func add(_ note: Note) {
         self.notes[note.uid] = note
     }
@@ -31,15 +38,12 @@ public class FileNotebook {
 
     public func saveToFile() {
         do {
-            let jsonData = try self.generateDataForJson()
+            //let jsonData = try self.toJsonData()
+            let jsonData = try JSONEncoder().encode(notes)
             let fileUrl = try self.getFileUrl()
             try jsonData.write(to: fileUrl)
-        } catch FileNotebookError.cantCreateDir {
-            print("Can not create a directory for json file.")
-        } catch FileNotebookError.cantGenerateJsonData {
-            print("Can not generate json to save to file.")
-        } catch{
-            print("Unknown error while saving notes to json file.")
+        } catch {
+            print("Error while saving notes to json file:\n \(error)")
         }
     }
 
@@ -51,14 +55,11 @@ public class FileNotebook {
             let fileUrl = try self.getFileUrl()
             if self.isFileExists(fileUrl: fileUrl) {
                 let jsonData = try Data(contentsOf: fileUrl)
-                try self.fillNotesWithJsonData(jsonData: jsonData)
+                //try self.loadFromJsonData(jsonData: jsonData)
+                notes = try JSONDecoder().decode([String: Note].self, from: jsonData)
             }
-        } catch FileNotebookError.cantCreateDir {
-            print("Can not create a directory for json file.")
-        } catch FileNotebookError.jsonWrongFormat {
-            print("Wrong data in json file.")
-        } catch{
-            print("Unknown error while loading notes from json file.")
+        } catch {
+            print("Error while loading notes from json file:\n \(error)")
         }
     }
 
@@ -69,42 +70,6 @@ public class FileNotebook {
     }
 
 
-    private func generateDataForJson() throws -> Data {
-        var jsonData: Data
-        var jsonArr: [[String: Any]] = []
-
-        for note in self.notes {
-            jsonArr.append(note.value.json)
-        }
-
-        do {
-            jsonData = try JSONSerialization.data(withJSONObject: jsonArr, options: [])
-        } catch {
-            throw FileNotebookError.cantGenerateJsonData
-        }
-
-        return jsonData
-    }
-
-
-    private func fillNotesWithJsonData(jsonData: Data) throws {
-        let jsonArrAny: Any? = try? JSONSerialization.jsonObject(with: jsonData, options: [])
-
-        guard
-            let jsonArr: [[String: Any]] = jsonArrAny as? [[String: Any]]
-        else {
-            throw FileNotebookError.jsonWrongFormat
-        }
-
-        for jsonArrNote in jsonArr {
-            let note = Note.parse(json: jsonArrNote)
-            if (note != nil) {
-                self.notes[note!.uid] = note
-            }
-        }
-    }
-
-
     private func isFileExists(fileUrl: URL) -> Bool {
         return FileManager.default.fileExists(atPath: fileUrl.path)
     }
@@ -112,7 +77,7 @@ public class FileNotebook {
 
     private func getFileUrl() throws -> URL {
         let path = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
-        let dirUrl = path.appendingPathComponent(self.dirname)
+        let dirUrl = path.appendingPathComponent(self.localAddress)
 
         var isDir: ObjCBool = false
         FileManager.default.fileExists(atPath: dirUrl.path, isDirectory: &isDir)

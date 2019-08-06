@@ -2,7 +2,7 @@ import UIKit
 
 class PointerView: UIView {
 
-    public enum states: String {
+    enum states: String {
         case circlePointer = "circle_pointer"
     }
 
@@ -21,15 +21,15 @@ class PointerView: UIView {
         setup()
     }
 
-    public func setState(state: states) {
+    func setState(state: states) {
         self.state = state
     }
 
-    public func setFillColor(color: UIColor) {
+    func setFillColor(color: UIColor) {
         self.fillColor = color
     }
 
-    public func drawPointer() {
+    func drawPointer() {
         setNeedsDisplay()
         self.isHidden = false
     }

@@ -1,63 +1,56 @@
 import UIKit
 
-extension Note {
-    public var json: [String: Any] {
-        get{
-            var jsonDict: [String: Any] = [
-                "uid": self.uid,
-                "title": self.title,
-                "content": self.content
-            ]
+extension Note: Codable {
 
-            let selfColorArray: [Int] = Note.uicolorToArray(self.color)
-            let whiteColorArray: [Int] = Note.uicolorToArray(UIColor(red: 1, green: 1, blue: 1, alpha: 1))
-            if !(selfColorArray.elementsEqual(whiteColorArray)) {
-                jsonDict["color"] = selfColorArray
-            }
+    private enum CodingKeys: String, CodingKey {
+        case uid
+        case title
+        case content
+        case color
+        case importance
+        case selfDestructDate = "self_destruct_date"
+    }
 
-            if (self.importance != Note.Importance.normal) {
-                jsonDict["importance"] = self.importance.rawValue
-            }
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
 
-            jsonDict["selfDestructDate"] = self.selfDestructDate?.timeIntervalSince1970
+        uid = try container.decode(String.self, forKey: .uid)
+        title = try container.decode(String.self, forKey: .title)
+        content = try container.decode(String.self, forKey: .content)
 
-            return jsonDict
+        importance = container.contains(.importance)
+            ? try Importance(rawValue: container.decode(String.self, forKey: .importance)) ?? Importance.normal
+            : Importance.normal
+
+        color = container.contains(.color)
+            ? try Note.arrayToUIColor(container.decode([Int].self, forKey: .color))
+            : UIColor.white
+
+        selfDestructDate = container.contains(.selfDestructDate)
+            ? try container.decode(Date.self, forKey: .selfDestructDate)
+            : nil
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(uid, forKey: .uid)
+        try container.encode(title, forKey: .title)
+        try container.encode(content, forKey: .content)
+
+        if (importance != Importance.normal) {
+            try container.encode(importance.rawValue, forKey: .importance)
+        }
+
+        if (color.extendedSRGB() != UIColor.white.extendedSRGB()) {
+            try container.encode(Note.uicolorToArray(color), forKey: .color)
+        }
+
+        if let selfDestructDate = selfDestructDate {
+            try container.encode(selfDestructDate, forKey: .selfDestructDate)
         }
     }
 
-    public static func parse(json: [String: Any]) -> Note? {
-        let importanceRaw: String = (json["importance"] as? String)
-            ?? Note.Importance.normal.rawValue
-
-        guard
-            let uid = json["uid"] as? String,
-            let title = json["title"] as? String,
-            let content = json["content"] as? String,
-            let importance = Note.Importance(rawValue: importanceRaw)
-        else {
-            return nil
-        }
-
-        let colorArray: [Int] = (json["color"] as? [Int])
-            ?? Note.uicolorToArray(UIColor(red: 1, green: 1, blue: 1, alpha: 1))
-
-        var selfDestructDate: Date? = nil
-        let jsonSelfDestructDate: TimeInterval? = json["selfDestructDate"] as? TimeInterval
-        if (jsonSelfDestructDate != nil) {
-            selfDestructDate = Date(timeIntervalSince1970: jsonSelfDestructDate!)
-        }
-
-        let note = Note(
-            uid: uid,
-            title: title,
-            content: content,
-            color: Note.arrayToUIColor(colorArray),
-            importance: importance,
-            selfDestructDate: selfDestructDate
-        )
-
-        return note
-    }
 
     private static func uicolorToArray(_ uicolor: UIColor) -> [Int] {
         var r: CGFloat = 0

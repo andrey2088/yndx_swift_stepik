@@ -9,6 +9,7 @@ public class FileNotebookTests: XCTestCase {
     override public func setUp() {
         super.setUp()
         sut = FileNotebook(/*filename: filename*/)
+        sut.loadFromFile()
     }
 
     override public func tearDown() {
@@ -149,7 +150,7 @@ public class FileNotebookTests: XCTestCase {
         XCTAssertEqual(note.title, checkedNote.title)
         XCTAssertEqual(note.content, checkedNote.content)
         XCTAssertEqual(note.importance, checkedNote.importance)
-        XCTAssertEqual(note.color, checkedNote.color)
+        XCTAssertEqual(note.color.extendedSRGB(), checkedNote.color.extendedSRGB())
 
         XCTAssertNil(checkedNote.selfDestructDate)
 

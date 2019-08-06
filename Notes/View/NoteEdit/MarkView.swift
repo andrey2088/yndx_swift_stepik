@@ -2,7 +2,7 @@ import UIKit
 
 class MarkView: UIView {
 
-    public enum states: String {
+    enum states: String {
         case colorFlag = "color_flag"
     }
 
@@ -20,11 +20,11 @@ class MarkView: UIView {
         setup()
     }
 
-    public func setState(state: states) {
+    func setState(state: states) {
         self.state = state
     }
 
-    public func drawMark() {
+    func drawMark() {
         setNeedsDisplay()
         self.isHidden = false
     }

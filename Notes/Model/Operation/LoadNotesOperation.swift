@@ -15,7 +15,7 @@ class LoadNotesOperation: AsyncOperation {
 
     private let loadBackend: LoadNotesBackendOperation
     private let loadDb: LoadNotebookDBOperation
-    private var replaceDb: BaseDBOperation = BaseDBOperation()
+    //private var replaceDb: BaseDBOperation = BaseDBOperation()
 
     var notebook: FileNotebook? = nil
     private(set) var result: Bool? = false
@@ -34,30 +34,35 @@ class LoadNotesOperation: AsyncOperation {
         print("OP: Load notes started")
 
         let adapter = BlockOperation() { [unowned loadBackend, unowned loadDb, unowned self] in
-            self.notebook = loadDb.notebook
-
-            switch loadBackend.result! {
-            case .success:
-                self.replaceDb = ReplaceNotesDBOperation(notesToReplace: loadBackend.notes, notebook: self.notebook!)
-            case .failure:
-                self.replaceDb.cancel()
+            print("Load adapter started.")
+            if let backendNotebook = loadBackend.notebook, loadBackend.result! == .success {
+                print("Load adapter: backend success.")
+                self.notebook = backendNotebook
+                self.notebook?.saveToFile()
+                //self.replaceDb =
+                //    ReplaceNotesDBOperation(notesToReplace: loadBackend.notebook.notes, notebook: self.notebook!)
+                loadDb.cancel()
             }
+            print("Load adapter finished.")
         }
 
-        loadDb.addDependency(loadBackend)
-        adapter.addDependency(loadDb)
-        replaceDb.addDependency(adapter)
+        adapter.addDependency(loadBackend)
+        loadDb.addDependency(adapter)
+        //replaceDb.addDependency(adapter)
 
         backendQueue.addOperation(loadBackend)
-        dbQueue.addOperation(loadDb)
         dbQueue.addOperation(adapter)
-        dbQueue.addOperation(replaceDb)
+        dbQueue.addOperation(loadDb)
+        //dbQueue.addOperation(replaceDb)
         dbQueue.waitUntilAllOperationsAreFinished()
 
-        switch loadBackend.result! {
-        case .success:
+        if let dbNotebook = loadDb.notebook {
+            self.notebook = dbNotebook
+        }
+
+        if (notebook != nil) {
             result = true
-        case .failure:
+        } else {
             result = false
         }
 

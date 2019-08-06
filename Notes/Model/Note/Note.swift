@@ -15,7 +15,7 @@ public struct Note {
     }
 
     public init(
-        uid: String,
+        uid: String = "",
         title: String,
         content: String,
         color: UIColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1),
