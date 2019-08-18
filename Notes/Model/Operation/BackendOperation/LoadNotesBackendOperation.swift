@@ -43,6 +43,8 @@ class LoadNotesBackendOperation: BaseBackendOperation {
         let task = URLSession.shared.dataTask(with: request) { [weak self]
             (data, response, error) in
 
+            defer { group.leave() }
+
             guard error == nil else {
                 print("Backend load error:")
                 print(error?.localizedDescription ?? "Unknown error.")
@@ -63,8 +65,6 @@ class LoadNotesBackendOperation: BaseBackendOperation {
                 print("Backend load error:\n \(error)")
                 return
             }
-            
-            group.leave()
         }
 
         group.enter()

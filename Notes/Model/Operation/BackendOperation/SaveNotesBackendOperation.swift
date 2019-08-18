@@ -26,6 +26,8 @@ class SaveNotesBackendOperation: BaseBackendOperation {
     }
 
     override func main() {
+        print("OP: Backend save started")
+
         result = .failure(.unreachable)
 
         if let notebook = notebook {
@@ -36,7 +38,7 @@ class SaveNotesBackendOperation: BaseBackendOperation {
             }
         }
 
-        print("OP: Backend save")
+        print("OP: Backend save finished")
         finish()
     }
 
@@ -62,6 +64,9 @@ class SaveNotesBackendOperation: BaseBackendOperation {
 
         let group = DispatchGroup()
         let task = URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
+
+            defer { group.leave() }
+
             guard let sself = self else { return }
 
             if let response = response as? HTTPURLResponse {
@@ -91,7 +96,6 @@ class SaveNotesBackendOperation: BaseBackendOperation {
             }
 
             sself.result = .success
-            group.leave()
         }
 
         group.enter()

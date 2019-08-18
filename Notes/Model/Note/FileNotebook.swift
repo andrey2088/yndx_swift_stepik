@@ -31,9 +31,9 @@ public class FileNotebook {
         self.notes.removeValue(forKey: uid)
     }
 
-    public func replace(_ notes: [String: Note]) {
+    /*public func replace(_ notes: [String: Note]) {
         self.notes = notes
-    }
+    }*/
 
 
     public func saveToFile() {

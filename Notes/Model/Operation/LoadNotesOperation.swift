@@ -7,25 +7,31 @@
 //
 
 import Foundation
+import CoreData
 
 class LoadNotesOperation: AsyncOperation {
 
     private let backendQueue: OperationQueue
     private let dbQueue: OperationQueue
+    private let dbNoteContainer: NSPersistentContainer
 
     private let loadBackend: LoadNotesBackendOperation
-    private let loadDb: LoadNotebookDBOperation
+    private let loadDb: LoadNotesDBOperation
     //private var replaceDb: BaseDBOperation = BaseDBOperation()
 
     var notebook: FileNotebook? = nil
     private(set) var result: Bool? = false
 
-    init(backendQueue: OperationQueue, dbQueue: OperationQueue) {
+    init(backendQueue: OperationQueue, dbQueue: OperationQueue, dbNoteContainer: NSPersistentContainer) {
         self.backendQueue = backendQueue
         self.dbQueue = dbQueue
+        self.dbNoteContainer = dbNoteContainer
 
         loadBackend = LoadNotesBackendOperation()
-        loadDb = LoadNotebookDBOperation()
+        loadDb = LoadNotesDBOperation(
+            context: dbNoteContainer.viewContext,
+            backgroundContext: dbNoteContainer.newBackgroundContext()
+        )
 
         super.init()
     }
@@ -38,7 +44,7 @@ class LoadNotesOperation: AsyncOperation {
             if let backendNotebook = loadBackend.notebook, loadBackend.result! == .success {
                 print("Load adapter: backend success.")
                 self.notebook = backendNotebook
-                self.notebook?.saveToFile()
+                //self.notebook?.saveToFile()
                 //self.replaceDb =
                 //    ReplaceNotesDBOperation(notesToReplace: loadBackend.notebook.notes, notebook: self.notebook!)
                 loadDb.cancel()
@@ -56,8 +62,10 @@ class LoadNotesOperation: AsyncOperation {
         //dbQueue.addOperation(replaceDb)
         dbQueue.waitUntilAllOperationsAreFinished()
 
-        if let dbNotebook = loadDb.notebook {
-            self.notebook = dbNotebook
+        if (!loadDb.isCancelled) {
+            let notesArr = loadDb.notes
+            let notes = convertArrayToNotes(notesArr: notesArr)
+            self.notebook = FileNotebook(notes: notes)
         }
 
         if (notebook != nil) {

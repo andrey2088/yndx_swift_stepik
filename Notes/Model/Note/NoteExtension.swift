@@ -2,6 +2,8 @@ import UIKit
 
 extension Note: Codable {
 
+    private static let colorStringSeparator: String.Element = ","
+
     private enum CodingKeys: String, CodingKey {
         case uid
         case title
@@ -23,7 +25,7 @@ extension Note: Codable {
             : Importance.normal
 
         color = container.contains(.color)
-            ? try Note.arrayToUIColor(container.decode([Int].self, forKey: .color))
+            ? try Note.uicolorFromArray(container.decode([Int].self, forKey: .color))
             : UIColor.white
 
         selfDestructDate = container.contains(.selfDestructDate)
@@ -62,12 +64,28 @@ extension Note: Codable {
         return [Int(r * 255), Int(g * 255), Int(b * 255), Int(a * 255)]
     }
 
-    private static func arrayToUIColor(_ array: [Int]) -> UIColor {
+    private static func uicolorFromArray(_ array: [Int]) -> UIColor {
         return UIColor(
             red: CGFloat(array[0]) / 255.0,
             green: CGFloat(array[1]) / 255.0,
             blue: CGFloat(array[2]) / 255.0,
             alpha: CGFloat(array[3]) / 255.0
         )
+    }
+
+    static func uicolorToString(_ uicolor: UIColor) -> String {
+        let intArray = Note.uicolorToArray(uicolor)
+        let stringArray = intArray.map { String($0) }
+        let string = stringArray.joined(separator: String(Note.colorStringSeparator))
+
+        return string
+    }
+
+    static func uicolorFromString(_ string: String) -> UIColor {
+        let stringArray = string.split(separator: Note.colorStringSeparator)
+        let intArray = stringArray.map { Int($0)! }
+        let uicolor = Note.uicolorFromArray(intArray)
+
+        return uicolor
     }
 }

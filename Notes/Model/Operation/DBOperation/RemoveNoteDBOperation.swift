@@ -7,23 +7,41 @@
 //
 
 import Foundation
+import CoreData
 
 class RemoveNoteDBOperation: BaseDBOperation {
 
-    private let notebook: FileNotebook
     private let note: Note
 
-    init(note: Note, notebook: FileNotebook) {
-        self.notebook = notebook
+    init(note: Note, context: NSManagedObjectContext, backgroundContext: NSManagedObjectContext) {
         self.note = note
-        super.init()
+        super.init(context: context, backgroundContext: backgroundContext)
     }
 
     override func main() {
-        notebook.remove(with: note.uid)
-        notebook.saveToFile()
+        print("OP: DB remove started")
+
+        if let dbNote = self.getDbNoteByNoteUid(noteUid: self.note.uid) {
+            let group = DispatchGroup()
+            group.enter()
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                defer { group.leave() }
+
+                guard let `self` = self else { return }
+
+                self.backgroundContext.performAndWait {
+                    do {
+                        self.backgroundContext.delete(dbNote)
+                        try self.backgroundContext.save()
+                    } catch {
+                        print(error)
+                    }
+                }
+            }
+            group.wait()
+        }
         
-        print("OP: DB remove")
+        print("OP: DB remove finished")
         finish()
     }
 }

@@ -7,11 +7,13 @@
 //
 
 import Foundation
+import CoreData
 
 class SaveNoteOperation: AsyncOperation {
 
     private let backendQueue: OperationQueue
     private let dbQueue: OperationQueue
+    private let dbNoteContainer: NSPersistentContainer
 
     private let note: Note
     private let saveDb: SaveNoteDBOperation
@@ -20,13 +22,24 @@ class SaveNoteOperation: AsyncOperation {
     var notebook: FileNotebook
     private(set) var result: Bool? = false
 
-    init(note: Note, notebook: FileNotebook, backendQueue: OperationQueue, dbQueue: OperationQueue) {
+    init(
+        note: Note,
+        notebook: FileNotebook,
+        backendQueue: OperationQueue,
+        dbQueue: OperationQueue,
+        dbNoteContainer: NSPersistentContainer
+    ) {
         self.note = note
         self.notebook = notebook
         self.backendQueue = backendQueue
         self.dbQueue = dbQueue
+        self.dbNoteContainer = dbNoteContainer
 
-        saveDb = SaveNoteDBOperation(note: note, notebook: notebook)
+        saveDb = SaveNoteDBOperation(
+            note: note,
+            context: dbNoteContainer.viewContext,
+            backgroundContext: dbNoteContainer.newBackgroundContext()
+        )
         saveBackend = SaveNotesBackendOperation(notebook: notebook)
 
         super.init()
@@ -35,6 +48,7 @@ class SaveNoteOperation: AsyncOperation {
     override func main() {
         print("OP: Save note started")
 
+        notebook.add(note)
         let notebook = self.notebook
         let adapter = BlockOperation() { [unowned saveBackend, unowned notebook] in
             saveBackend.notebook = notebook

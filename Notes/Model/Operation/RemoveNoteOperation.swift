@@ -7,11 +7,13 @@
 //
 
 import Foundation
+import CoreData
 
 class RemoveNoteOperation: AsyncOperation {
 
     private let backendQueue: OperationQueue
     private let dbQueue: OperationQueue
+    private let dbNoteContainer: NSPersistentContainer
 
     private let note: Note
     private let removeDb: RemoveNoteDBOperation
@@ -20,13 +22,24 @@ class RemoveNoteOperation: AsyncOperation {
     var notebook: FileNotebook
     private(set) var result: Bool? = false
 
-    init(note: Note, notebook: FileNotebook, backendQueue: OperationQueue, dbQueue: OperationQueue) {
+    init(
+        note: Note,
+        notebook: FileNotebook,
+        backendQueue: OperationQueue,
+        dbQueue: OperationQueue,
+        dbNoteContainer: NSPersistentContainer
+    ) {
         self.note = note
         self.notebook = notebook
         self.backendQueue = backendQueue
         self.dbQueue = dbQueue
+        self.dbNoteContainer = dbNoteContainer
 
-        removeDb = RemoveNoteDBOperation(note: note, notebook: notebook)
+        removeDb = RemoveNoteDBOperation(
+            note: note,
+            context: dbNoteContainer.viewContext,
+            backgroundContext: dbNoteContainer.newBackgroundContext()
+        )
         saveBackend = SaveNotesBackendOperation(notebook: notebook)
 
         super.init()
@@ -35,6 +48,7 @@ class RemoveNoteOperation: AsyncOperation {
     override func main() {
         print("OP: Remove note started")
 
+        notebook.remove(with: note.uid)
         let notebook = self.notebook
         let adapter = BlockOperation() { [unowned saveBackend, unowned notebook] in
             saveBackend.notebook = notebook

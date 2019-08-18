@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import CoreData
 
 class NoteListViewController: UIViewController {
 
     private let backendQueue = OperationQueue()
     private let dbQueue = OperationQueue()
     private let commonQueue = OperationQueue()
+    var dbNoteContainer: NSPersistentContainer
 
     private var fileNotebook: FileNotebook? = nil
     private var notesArr: [Note] = []
@@ -23,6 +25,15 @@ class NoteListViewController: UIViewController {
     private let cancelEditButtonText = "Cancel"
 
     var refreshControl: UIRefreshControl!
+
+    init(dbNoteContainer: NSPersistentContainer) {
+        self.dbNoteContainer = dbNoteContainer
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -128,7 +139,8 @@ extension NoteListViewController: NoteAddDelegate {
             note: note,
             notebook: fileNotebook!,
             backendQueue: backendQueue,
-            dbQueue: dbQueue
+            dbQueue: dbQueue,
+            dbNoteContainer: dbNoteContainer
         )
         let handleDataOp = BlockOperation() { [unowned saveNoteOp, unowned self] in
             self.fileNotebook = saveNoteOp.notebook
@@ -148,7 +160,8 @@ extension NoteListViewController: NoteAddDelegate {
             note: note,
             notebook: fileNotebook!,
             backendQueue: backendQueue,
-            dbQueue: dbQueue
+            dbQueue: dbQueue,
+            dbNoteContainer: dbNoteContainer
         )
         let handleDataOp = BlockOperation() { [unowned removeNoteOp, unowned self] in
             self.fileNotebook = removeNoteOp.notebook
@@ -164,7 +177,11 @@ extension NoteListViewController: NoteAddDelegate {
     }
 
     private func loadNotes() {
-        let loadNotesOp = LoadNotesOperation(backendQueue: backendQueue, dbQueue: dbQueue)
+        let loadNotesOp = LoadNotesOperation(
+            backendQueue: backendQueue,
+            dbQueue: dbQueue,
+            dbNoteContainer: dbNoteContainer
+        )
         let handleDataOp = BlockOperation() { [unowned loadNotesOp, unowned self] in
             self.fileNotebook = loadNotesOp.notebook!
             self.notesArr = self.convertNotesToArray(notes: self.fileNotebook!.notes)

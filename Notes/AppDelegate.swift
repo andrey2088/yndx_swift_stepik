@@ -7,13 +7,31 @@
 //
 
 import UIKit
+import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let dbName: String = "DBNote"
+    var container: NSPersistentContainer!
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func createContainer(completion: @escaping (NSPersistentContainer) -> ()) {
+        let container = NSPersistentContainer(name: dbName)
+        print("container")
+        container.loadPersistentStores(completionHandler: {_, error in
+            guard error == nil else {
+                fatalError("Failed to load store")
+            }
+            DispatchQueue.main.async { completion(container) }
+        })
+        print("load")
+    }
+
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
         // Override point for customization after application launch.
 
         /*let log = Log()
@@ -25,27 +43,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             log.info("Launched in dark mode.")
         #endif*/
 
-        window = UIWindow(frame: UIScreen.main.bounds)
 
         let mainController = UITabBarController()
 
-        let noteListViewController = NoteListViewController()
-        let notesNavController = UINavigationController(rootViewController: noteListViewController)
-        let galleryViewController = GalleryViewController()
-        let galleryNavController = UINavigationController(rootViewController: galleryViewController)
+        createContainer { container in
+            print("111")
+            self.container = container
+            let noteListViewController = NoteListViewController(dbNoteContainer: container)
+            let notesNavController = UINavigationController(rootViewController: noteListViewController)
+            let galleryViewController = GalleryViewController()
+            let galleryNavController = UINavigationController(rootViewController: galleryViewController)
 
-        notesNavController.tabBarItem = UITabBarItem(
-            title: "Notes",
-            image: UIImage(named: "tab_bar_icon/icon_note"),
-            selectedImage: nil
-        )
-        galleryNavController.tabBarItem = UITabBarItem(
-            title: "Gallery",
-            image: UIImage(named: "tab_bar_icon/icon_photo"),
-            selectedImage: nil
-        )
-        mainController.viewControllers = [notesNavController, galleryNavController]
+            notesNavController.tabBarItem = UITabBarItem(
+                title: "Notes",
+                image: UIImage(named: "tab_bar_icon/icon_note"),
+                selectedImage: nil
+            )
+            galleryNavController.tabBarItem = UITabBarItem(
+                title: "Gallery",
+                image: UIImage(named: "tab_bar_icon/icon_photo"),
+                selectedImage: nil
+            )
+            mainController.viewControllers = [notesNavController, galleryNavController]
+        }
 
+        window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = mainController
         window?.makeKeyAndVisible()
 
