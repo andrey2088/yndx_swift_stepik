@@ -1061,7 +1061,7 @@
 				557EAF27230A186A00555242 /* Note2.xcdatamodel */,
 				557EAF212308A90A00555242 /* Note.xcdatamodel */,
 			);
-			currentVersion = 557EAF27230A186A00555242 /* Note2.xcdatamodel */;
+			currentVersion = 557EAF212308A90A00555242 /* Note.xcdatamodel */;
 			path = DBNote.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
