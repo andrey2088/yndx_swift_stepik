@@ -102,6 +102,7 @@
 		5568A1A222DBCF26000E64CA /* PointerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointerView.swift; sourceTree = "<group>"; };
 		5568A1A422DBE6B7000E64CA /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		557EAF212308A90A00555242 /* Note.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Note.xcdatamodel; sourceTree = "<group>"; };
+		557EAF27230A186A00555242 /* Note2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Note2.xcdatamodel; sourceTree = "<group>"; };
 		5583C3FA22CBFF350053AB21 /* Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5583C3FD22CBFF350053AB21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5583C40222CBFF350053AB21 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -1057,9 +1058,10 @@
 		557EAF202308A90A00555242 /* DBNote.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				557EAF27230A186A00555242 /* Note2.xcdatamodel */,
 				557EAF212308A90A00555242 /* Note.xcdatamodel */,
 			);
-			currentVersion = 557EAF212308A90A00555242 /* Note.xcdatamodel */;
+			currentVersion = 557EAF27230A186A00555242 /* Note2.xcdatamodel */;
 			path = DBNote.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
