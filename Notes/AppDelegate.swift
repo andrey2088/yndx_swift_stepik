@@ -46,11 +46,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         createContainer { container in
             self.container = container
-            let noteListViewController = NoteListViewController(dbNoteContainer: container)
+            let noteListViewController = NoteListViewController(/*dbNoteContainer: container*/)
             let notesNavController = UINavigationController(rootViewController: noteListViewController)
             let galleryViewController = GalleryViewController()
             let galleryNavController = UINavigationController(rootViewController: galleryViewController)
 
+            let notePresenter = NotePresenter(dbNoteContainer: container)
+            noteListViewController.notePresenter = notePresenter
+            
             notesNavController.tabBarItem = UITabBarItem(
                 title: "Notes",
                 image: UIImage(named: "tab_bar_icon/icon_note"),

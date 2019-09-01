@@ -18,6 +18,7 @@ class BaseBackendOperation: AsyncOperation {
     let remoteToken: String = "9c66f644201cca83534bf6da1084de9a513b6694"
     let remoteLoadAddress: String
     let remoteFilename: String = "ios-course-notes-db"
+    let remoteFilePublicStatus = true
 
     var notebook: FileNotebook? = nil
 

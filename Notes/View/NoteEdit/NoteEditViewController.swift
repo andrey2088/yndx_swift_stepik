@@ -8,19 +8,16 @@
 
 import UIKit
 
-protocol NoteAddDelegate {
-    func addNote(note: Note)
-}
-
 class NoteEditViewController: UIViewController {
+
+    var notePresenter: NotePresenter!
 
     private let colorPickerViewController = ColorPickerViewController()
     private let noteEditScrollView = NoteEditScrollView(frame: CGRect.zero)
     private let noteEditView = NoteEditView(frame: CGRect.zero)
 
     private var keyboardHeight: CGFloat = 0
-    var note: Note? = nil
-    var noteAddDelegate: NoteAddDelegate? = nil
+    var noteIndex: Int? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +44,8 @@ class NoteEditViewController: UIViewController {
     }
 
     private func setupViews() {
+        notePresenter.setNoteEditVCDelegate(self)
+
         title = "Note"
         noteEditView.frame.origin = CGPoint(
             x: noteEditScrollView.bounds.minX,
@@ -69,12 +68,12 @@ class NoteEditViewController: UIViewController {
 
     // ---------- Note ----------
 
-    private func buildNoteWithEnteredData() -> Note? {
+    private func addNoteIfPossible() {
         if (noteEditView.noteTitleView.text != "" || noteEditView.noteTextView.text != "") {
             let selfDestructDate: Date? = (noteEditView.switchView.isOn == true)
                 ? noteEditView.dateView.date
                 : nil
-            return Note(
+            return notePresenter.addNote(
                 uid: noteEditView.noteUidView.text!,
                 title: noteEditView.noteTitleView.text!,
                 content: noteEditView.noteTextView.text!,
@@ -82,31 +81,20 @@ class NoteEditViewController: UIViewController {
                 selfDestructDate: selfDestructDate
             )
         }
-
-        return nil
-    }
-
-    private func addNoteIfPossible() {
-        if
-            let note = buildNoteWithEnteredData(),
-            let noteAddDelegate = noteAddDelegate
-        {
-            noteAddDelegate.addNote(note: note)
-        }
     }
 
     private func loadNoteIfPossible() {
-        if let note = note {
-            noteEditView.noteUidView.text = note.uid
-            noteEditView.noteTitleView.text = note.title
-            noteEditView.noteTextView.text = note.content
-            if let selfDestructDate = note.selfDestructDate {
+        if let noteIndex = noteIndex {
+            noteEditView.noteUidView.text = notePresenter.getNoteUidByIndex(noteIndex)
+            noteEditView.noteTitleView.text = notePresenter.getNoteTitleByIndex(noteIndex)
+            noteEditView.noteTextView.text = notePresenter.getNoteContentByIndex(noteIndex)
+            if let selfDestructDate = notePresenter.getNoteSelfDestructDateByIndex(noteIndex) {
                 noteEditView.switchView.isOn = true
                 noteEditView.dateView.date = selfDestructDate
                 noteEditView.dateView.isHidden = false
             }
 
-            noteEditView.noteColor = note.color.extendedSRGB()
+            noteEditView.noteColor = notePresenter.getNoteColorByIndex(noteIndex).extendedSRGB()
         }
     }
 
@@ -201,6 +189,11 @@ class NoteEditViewController: UIViewController {
         keyboardHeight = 0
         adjustLayouts()
     }
+}
+
+
+extension NoteEditViewController: NoteEditVCDelegate {
+
 }
 
 

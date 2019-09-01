@@ -112,7 +112,7 @@ class SaveNotesBackendOperation: BaseBackendOperation {
             files: [
                 remoteFilename: GistFileSave(content: jsonString!)
             ],
-            publicStatus: true
+            publicStatus: remoteFilePublicStatus
         )
 
         return gistSave
