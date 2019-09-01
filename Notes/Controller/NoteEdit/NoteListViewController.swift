@@ -106,7 +106,7 @@ class NoteListViewController: UIViewController {
     private func showNoteEditViewController(note: Note? = nil) {
         let noteEditViewController = NoteEditViewController()
 
-        if (note != nil) {
+        if let note = note {
             noteEditViewController.note = note
         }
         noteEditViewController.noteAddDelegate = self

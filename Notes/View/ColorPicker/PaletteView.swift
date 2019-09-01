@@ -23,9 +23,8 @@ class PaletteView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        let point = getPointOfColor(pickedColor)
-        if (point != nil) {
-            putPointer(point: point!)
+        if let point = getPointOfColor(pickedColor) {
+            putPointer(point: point)
         }
     }
 
@@ -91,19 +90,19 @@ class PaletteView: UIView {
     }
 
     private func getPointOfColor(_ color: UIColor) -> CGPoint? {
-        let hue = color.getHueValue()
-        let saturation = color.getSaturationValue()
+        if
+            let hue = color.getHueValue(),
+            let saturation = color.getSaturationValue()
+        {
+            let point = CGPoint (
+                x: self.bounds.size.width * hue,
+                y: self.bounds.size.height - (self.bounds.size.height * saturation)
+            )
 
-        if (hue == nil || saturation == nil) {
+            return point
+        } else {
             return nil
         }
-
-        let point = CGPoint (
-            x: self.bounds.size.width * hue!,
-            y: self.bounds.size.height - (self.bounds.size.height * saturation!)
-        )
-
-        return point
     }
 
     private func putPointer(point: CGPoint) {

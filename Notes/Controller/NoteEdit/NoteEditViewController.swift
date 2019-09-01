@@ -89,27 +89,25 @@ class NoteEditViewController: UIViewController {
     private func addNoteIfPossible() {
         if
             let note = buildNoteWithEnteredData(),
-            noteAddDelegate != nil
+            let noteAddDelegate = noteAddDelegate
         {
-            noteAddDelegate!.addNote(note: note)
+            noteAddDelegate.addNote(note: note)
         }
     }
 
     private func loadNoteIfPossible() {
-        if (note == nil) {
-            return
-        }
+        if let note = note {
+            noteEditView.noteUidView.text = note.uid
+            noteEditView.noteTitleView.text = note.title
+            noteEditView.noteTextView.text = note.content
+            if let selfDestructDate = note.selfDestructDate {
+                noteEditView.switchView.isOn = true
+                noteEditView.dateView.date = selfDestructDate
+                noteEditView.dateView.isHidden = false
+            }
 
-        noteEditView.noteUidView.text = note!.uid
-        noteEditView.noteTitleView.text = note!.title
-        noteEditView.noteTextView.text = note!.content
-        if (note!.selfDestructDate != nil) {
-            noteEditView.switchView.isOn = true
-            noteEditView.dateView.date = note!.selfDestructDate!
-            noteEditView.dateView.isHidden = false
+            noteEditView.noteColor = note.color.extendedSRGB()
         }
-
-        noteEditView.noteColor = note!.color.extendedSRGB()
     }
 
 
@@ -134,17 +132,15 @@ class NoteEditViewController: UIViewController {
     }
 
     @objc private func colorSquareTapped(sender: UIGestureRecognizer) {
-        let colorSquare: ColorSquareView? = sender.view as? ColorSquareView
-
-        if (colorSquare != nil) {
+        if let colorSquare = sender.view as? ColorSquareView {
             if (colorSquare != noteEditView.customColorSquare) {
-                noteEditView.noteColor = colorSquare!.color
+                noteEditView.noteColor = colorSquare.color
                 noteEditView.updateUI()
             }
 
             if (colorSquare == noteEditView.customColorSquare) {
                 if (noteEditView.customColorSet) {
-                    noteEditView.noteColor = colorSquare!.color
+                    noteEditView.noteColor = colorSquare.color
                     noteEditView.updateUI()
                 } else {
                     showColorPickerViewController()

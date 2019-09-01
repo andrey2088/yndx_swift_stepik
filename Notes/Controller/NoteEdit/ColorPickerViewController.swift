@@ -72,11 +72,12 @@ class ColorPickerViewController: UIViewController {
     }
 
     func setSelectedColor(_ color: UIColor) {
-        let brightness: CGFloat? = color.getBrightnessValue()
-        if (brightness == nil) {
+        if let brightness = color.getBrightnessValue() {
+            self.brightness = brightness
+        } else {
             return
         }
-        self.brightness = brightness!
+
         colorPickerView.brightnessSlider.value = Float(self.brightness)
         colorPickerView.paletteView.pickedColor = color.withBrightness(1)
     }
