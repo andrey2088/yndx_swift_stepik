@@ -90,6 +90,26 @@ class LoadNotesOperation: AsyncOperation {
                     }
                 }
 
+                // Self destructing
+                for notePair in backendNotebook.notes {
+                    let note = notePair.value
+                    if
+                        let selfDestructDate = note.selfDestructDate,
+                        selfDestructDate < Date()
+                    {
+                        backendNotebook.remove(with: note.uid)
+                        backendNeedsUpdate = true
+                        
+                        let removeDb = RemoveNoteDBOperation(
+                            note: note,
+                            context: self.dbNoteContainer.viewContext,
+                            backgroundContext: self.dbNoteContainer.newBackgroundContext()
+                        )
+                        dbOps[dbOps.count + 1] = removeDb
+                    }
+
+                }
+
                 self.notebook = backendNotebook
                 if backendNeedsUpdate {
                     print("LOAD sync: backend needs update.")

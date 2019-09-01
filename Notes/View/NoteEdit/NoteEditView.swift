@@ -195,7 +195,9 @@ class NoteEditView: UIView {
         dateView.frame.size.height = 150
     }
 
-    private func setupDateView() {}
+    private func setupDateView() {
+        dateView.datePickerMode = .date
+    }
 
 
     // ---------- Colors views ----------
