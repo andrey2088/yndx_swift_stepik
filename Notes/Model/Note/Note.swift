@@ -7,6 +7,7 @@ public struct Note {
     public let color: UIColor
     public let importance: Importance
     public let selfDestructDate: Date?
+    public let modified: Date
 
     public enum Importance: String {
         case unimportant = "unimportant"
@@ -20,7 +21,8 @@ public struct Note {
         content: String,
         color: UIColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1),
         importance: Importance = Importance.normal,
-        selfDestructDate: Date? = nil
+        selfDestructDate: Date? = nil,
+        modified: Date? = nil
     ) {
         self.uid = (uid == "") ? UUID().uuidString : uid
         self.title = (title == "") ? "Empty title" : title
@@ -28,5 +30,6 @@ public struct Note {
         self.color = color.extendedSRGB()
         self.importance = importance
         self.selfDestructDate = selfDestructDate
+        self.modified = modified ?? Date()
     }
 }

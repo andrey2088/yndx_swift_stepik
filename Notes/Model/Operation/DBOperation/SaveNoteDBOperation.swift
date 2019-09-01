@@ -19,7 +19,7 @@ class SaveNoteDBOperation: BaseDBOperation {
     }
 
     override func main() {
-        print("OP: DB save started")
+        print("DB SAVE started.")
 
         if let dbNote = getDbNoteByNoteUid(noteUid: note.uid) {
             setDbNoteFromNote(dbNote: dbNote)
@@ -45,7 +45,7 @@ class SaveNoteDBOperation: BaseDBOperation {
         }
         group.wait()
 
-        print("OP: DB save finished")
+        print("DB SAVE finished.")
         finish()
     }
 
@@ -56,5 +56,6 @@ class SaveNoteDBOperation: BaseDBOperation {
         dbNote.color = Note.uicolorToString(note.color)
         dbNote.importance = note.importance.rawValue
         dbNote.selfDestructDate = note.selfDestructDate
+        dbNote.modified = note.modified
     }
 }

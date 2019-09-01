@@ -116,7 +116,7 @@ class NoteListViewController: UIViewController {
 
     private func refreshTable(dependencyOp: Operation) {
         let refreshTableOp = BlockOperation() { [unowned self] in
-            print("OP: refresh table")
+            print("refresh table")
             self.notesTableView.reloadData()
         }
 

@@ -18,14 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func createContainer(completion: @escaping (NSPersistentContainer) -> ()) {
         let container = NSPersistentContainer(name: dbName)
-        print("container")
         container.loadPersistentStores(completionHandler: {_, error in
             guard error == nil else {
                 fatalError("Failed to load store")
             }
             DispatchQueue.main.async { completion(container) }
         })
-        print("load")
     }
 
     func application(
@@ -47,7 +45,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let mainController = UITabBarController()
 
         createContainer { container in
-            print("111")
             self.container = container
             let noteListViewController = NoteListViewController(dbNoteContainer: container)
             let notesNavController = UINavigationController(rootViewController: noteListViewController)

@@ -4,7 +4,7 @@ public class FileNotebook {
 
     private let localAddress: String = "notebook_files"
     var gistId: String? = nil
-    private let filename: String = "ios-course-notes-db.json"
+    private let filename: String = "ios-course-notes-db"
 
     public private(set) var notes: [String: Note] = [:]
 

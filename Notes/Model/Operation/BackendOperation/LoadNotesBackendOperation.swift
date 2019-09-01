@@ -21,7 +21,7 @@ class LoadNotesBackendOperation: BaseBackendOperation {
     var loadedNotes: [String: Note]? = nil
 
     override func main() {
-        print("OP: Backend load started.")
+        print("BACK LOAD started.")
         result = .failure(.unreachable)
 
         loadNotes()
@@ -30,7 +30,7 @@ class LoadNotesBackendOperation: BaseBackendOperation {
             result = .success
         }
 
-        print("OP: Backend load finished.")
+        print("BACK LOAD finished.")
         finish()
     }
 
@@ -46,7 +46,7 @@ class LoadNotesBackendOperation: BaseBackendOperation {
             defer { group.leave() }
 
             guard error == nil else {
-                print("Backend load error:")
+                print("BACK LOAD error:")
                 print(error?.localizedDescription ?? "Unknown error.")
                 return
             }
@@ -57,12 +57,12 @@ class LoadNotesBackendOperation: BaseBackendOperation {
                 let gists = try JSONDecoder().decode([GistLoad].self, from: data)
                 try sself.loadNotesFromLoadedGists(gists)
                 if (sself.loadedNotes != nil) {
-                    print("Backend load - success")
+                    print("BACK LOAD success")
                 } else {
-                    print("Backend load - success, but empty")
+                    print("BACK LOAD success, but empty")
                 }
             } catch {
-                print("Backend load error:\n \(error)")
+                print("BACK LOAD error:\n \(error)")
                 return
             }
         }

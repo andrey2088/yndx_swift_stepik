@@ -10,9 +10,6 @@ import UIKit
 
 class NoteEditView: UIView {
 
-    private let portraitWidth: CGFloat = UIScreen.main.nativeBounds.width / UIScreen.main.nativeScale
-    private let sideMargin: CGFloat = 15
-
     let noteUidView = UITextField()
     let noteTitleView = UITextField()
     let noteTextView = UITextView()
@@ -28,7 +25,10 @@ class NoteEditView: UIView {
     var noteColor: UIColor = UIColor.white
     var customColorSet: Bool = false
     private let markView = MarkView(frame: CGRect.zero)
+    //var colorPickerView = ColorPickerView(frame: CGRect.zero)
 
+    private let portraitWidth: CGFloat = UIScreen.main.nativeBounds.width / UIScreen.main.nativeScale
+    private let sideMargin: CGFloat = 15
     private let noteTitleViewMarginTop: CGFloat = 20
     private let noteTextViewMarginTop: CGFloat = 5
     private let switchLabelViewMarginTop: CGFloat = 0
@@ -36,9 +36,6 @@ class NoteEditView: UIView {
     private let dateViewMarginTop: CGFloat = 0
     private let colorsViewMarginTop: CGFloat = 10
     private var colorsViewMarginLeft: CGFloat = 0
-
-    var colorPickerView = ColorPickerView(frame: CGRect.zero)
-    
 
     override init(frame: CGRect) {
         super.init(frame: frame)

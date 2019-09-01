@@ -50,15 +50,4 @@ class AsyncOperation: Operation {
         super.cancel()
         finish()
     }
-
-    
-    func convertArrayToNotes(notesArr: [Note]) -> [String: Note] {
-        var notes: [String: Note] = [:]
-
-        for note in notesArr {
-            notes[note.uid] = note
-        }
-
-        return notes
-    }
 }

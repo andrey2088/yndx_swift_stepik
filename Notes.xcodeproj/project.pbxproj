@@ -20,7 +20,6 @@
 		553ADE3A22F195B4009C7902 /* RemoveNoteDBOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553ADE3922F195B4009C7902 /* RemoveNoteDBOperation.swift */; };
 		553ADE3C22F1960D009C7902 /* LoadNotesOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553ADE3B22F1960D009C7902 /* LoadNotesOperation.swift */; };
 		553ADE3E22F1961F009C7902 /* RemoveNoteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553ADE3D22F1961F009C7902 /* RemoveNoteOperation.swift */; };
-		553ADE4022F4D2C4009C7902 /* ReplaceNotesDBOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553ADE3F22F4D2C4009C7902 /* ReplaceNotesDBOperation.swift */; };
 		555C421822D26BDE00C18D68 /* NotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555C421722D26BDE00C18D68 /* NotesUITests.swift */; };
 		555C422322D26E0500C18D68 /* FileNotebookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555C422022D26E0500C18D68 /* FileNotebookTests.swift */; };
 		555C422422D26E0500C18D68 /* NoteExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555C422122D26E0500C18D68 /* NoteExtensionTests.swift */; };
@@ -89,7 +88,6 @@
 		553ADE3922F195B4009C7902 /* RemoveNoteDBOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveNoteDBOperation.swift; sourceTree = "<group>"; };
 		553ADE3B22F1960D009C7902 /* LoadNotesOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadNotesOperation.swift; sourceTree = "<group>"; };
 		553ADE3D22F1961F009C7902 /* RemoveNoteOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveNoteOperation.swift; sourceTree = "<group>"; };
-		553ADE3F22F4D2C4009C7902 /* ReplaceNotesDBOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaceNotesDBOperation.swift; sourceTree = "<group>"; };
 		555C421522D26BDD00C18D68 /* NotesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		555C421722D26BDE00C18D68 /* NotesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesUITests.swift; sourceTree = "<group>"; };
 		555C421922D26BDE00C18D68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -251,7 +249,6 @@
 				553ADE2D22F1950B009C7902 /* BaseDBOperation.swift */,
 				553ADE3722F195A3009C7902 /* LoadNotesDBOperation.swift */,
 				553ADE3922F195B4009C7902 /* RemoveNoteDBOperation.swift */,
-				553ADE3F22F4D2C4009C7902 /* ReplaceNotesDBOperation.swift */,
 				553ADE2F22F1951E009C7902 /* SaveNoteDBOperation.swift */,
 			);
 			path = DBOperation;
@@ -570,7 +567,6 @@
 				5568813722F9BFC500C01361 /* Gist.swift in Sources */,
 				5583C43822CC33D20053AB21 /* NoteExtension.swift in Sources */,
 				5583C43622CC33D20053AB21 /* FileNotebook.swift in Sources */,
-				553ADE4022F4D2C4009C7902 /* ReplaceNotesDBOperation.swift in Sources */,
 				553ADE2C22F194F3009C7902 /* BaseBackendOperation.swift in Sources */,
 				55C9D38B22E511D1000A776E /* PhotoNote.swift in Sources */,
 				55C9D38522E380B8000A776E /* ColorPickerView.swift in Sources */,

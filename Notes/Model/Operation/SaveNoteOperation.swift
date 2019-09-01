@@ -46,7 +46,7 @@ class SaveNoteOperation: AsyncOperation {
     }
 
     override func main() {
-        print("OP: Save note started")
+        print("SAVE started.")
 
         notebook.add(note)
         let notebook = self.notebook
@@ -69,7 +69,7 @@ class SaveNoteOperation: AsyncOperation {
             result = false
         }
 
-        print("OP: Save note finished")
+        print("SAVE finished.")
         finish()
     }
 }

@@ -46,7 +46,7 @@ class RemoveNoteOperation: AsyncOperation {
     }
 
     override func main() {
-        print("OP: Remove note started")
+        print("REMOVE started.")
 
         notebook.remove(with: note.uid)
         let notebook = self.notebook
@@ -70,7 +70,7 @@ class RemoveNoteOperation: AsyncOperation {
             result = false
         }
 
-        print("OP: Remove note finished")
+        print("REMOVE finished.")
         finish()
     }
 }

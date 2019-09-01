@@ -13,11 +13,11 @@ class LoadNotesOperation: AsyncOperation {
 
     private let backendQueue: OperationQueue
     private let dbQueue: OperationQueue
+    private let syncQueue = OperationQueue()
     private let dbNoteContainer: NSPersistentContainer
 
     private let loadBackend: LoadNotesBackendOperation
     private let loadDb: LoadNotesDBOperation
-    //private var replaceDb: BaseDBOperation = BaseDBOperation()
 
     var notebook: FileNotebook? = nil
     private(set) var result: Bool? = false
@@ -37,44 +37,105 @@ class LoadNotesOperation: AsyncOperation {
     }
 
     override func main() {
-        print("OP: Load notes started")
+        print("LOAD started.")
 
-        let adapter = BlockOperation() { [unowned loadBackend, unowned loadDb, unowned self] in
-            print("Load adapter started.")
-            if let backendNotebook = loadBackend.notebook, loadBackend.result! == .success {
-                print("Load adapter: backend success.")
+        let syncOp = BlockOperation() { [unowned loadBackend, unowned loadDb, unowned self] in
+            print("LOAD sync started.")
+            if
+                let backendNotebook = loadBackend.notebook,
+                loadBackend.result! == .success
+            {
+                print("LOAD sync: backend success.")
+                var dbOps: [Int: BaseDBOperation] = [:]
+                var backendNeedsUpdate: Bool = false
+
+                let dbNotesArr = loadDb.notes
+                let dbNotes = self.getNotesFromArray(dbNotesArr)
+                for backendNotePair in backendNotebook.notes {
+                    let backendNote = backendNotePair.value
+                    if let dbNote = dbNotes[backendNotePair.key] {
+                        if backendNote.modified > dbNote.modified {
+                            let removeDb = RemoveNoteDBOperation(
+                                note: dbNote,
+                                context: self.dbNoteContainer.viewContext,
+                                backgroundContext: self.dbNoteContainer.newBackgroundContext()
+                            )
+                            let saveDB = SaveNoteDBOperation(
+                                note: backendNote,
+                                context: self.dbNoteContainer.viewContext,
+                                backgroundContext: self.dbNoteContainer.newBackgroundContext()
+                            )
+                            dbOps[dbOps.count + 1] = removeDb
+                            dbOps[dbOps.count + 1] = saveDB
+                        } else if dbNote.modified > backendNote.modified {
+                            backendNotebook.add(dbNote)
+                            backendNeedsUpdate = true
+                            print("bnu 1")
+                        }
+                    } else {
+                        let saveDB = SaveNoteDBOperation(
+                            note: backendNote,
+                            context: self.dbNoteContainer.viewContext,
+                            backgroundContext: self.dbNoteContainer.newBackgroundContext()
+                        )
+                        dbOps[dbOps.count + 1] = saveDB
+                    }
+                }
+
+                for dbNotePair in dbNotes {
+                    if backendNotebook.notes[dbNotePair.key] == nil {
+                        backendNotebook.add(dbNotePair.value)
+                        backendNeedsUpdate = true
+                        print("bnu 2")
+                    }
+                }
+
                 self.notebook = backendNotebook
-                //self.notebook?.saveToFile()
-                //self.replaceDb =
-                //    ReplaceNotesDBOperation(notesToReplace: loadBackend.notebook.notes, notebook: self.notebook!)
-                loadDb.cancel()
+                if backendNeedsUpdate {
+                    print("LOAD sync: backend needs update.")
+                    let saveBackend = SaveNotesBackendOperation(notebook: backendNotebook)
+                    self.backendQueue.addOperation(saveBackend)
+                }
+
+                if !dbOps.isEmpty {
+                    print("LOAD sync: DB needs update.")
+                    for dbOpPair in dbOps {
+                        if
+                            let previousDbOp = dbOps[dbOpPair.key - 1],
+                            (dbOpPair.key > 0)
+                        {
+                            dbOpPair.value.addDependency(previousDbOp)
+                        }
+                        self.dbQueue.addOperation(dbOpPair.value)
+                    }
+                }
+            } else {
+                print("LOAD sync: backend failed.")
+                let notes = self.getNotesFromArray(loadDb.notes)
+                self.notebook = FileNotebook(notes: notes)
             }
-            print("Load adapter finished.")
+            print("LOAD sync finished.")
         }
 
-        adapter.addDependency(loadBackend)
-        loadDb.addDependency(adapter)
-        //replaceDb.addDependency(adapter)
+        syncOp.addDependency(loadBackend)
+        syncOp.addDependency(loadDb)
 
         backendQueue.addOperation(loadBackend)
-        dbQueue.addOperation(adapter)
         dbQueue.addOperation(loadDb)
-        //dbQueue.addOperation(replaceDb)
-        dbQueue.waitUntilAllOperationsAreFinished()
+        syncQueue.addOperation(syncOp)
+        syncQueue.waitUntilAllOperationsAreFinished()
 
-        if (!loadDb.isCancelled) {
-            let notesArr = loadDb.notes
-            let notes = convertArrayToNotes(notesArr: notesArr)
-            self.notebook = FileNotebook(notes: notes)
-        }
-
-        if (notebook != nil) {
-            result = true
-        } else {
-            result = false
-        }
-
-        print("OP: Load notes finished")
+        print("LOAD finished.")
         finish()
+    }
+
+    private func getNotesFromArray(_ notesArr: [Note]) -> [String: Note] {
+        var notes: [String: Note] = [:]
+
+        for note in notesArr {
+            notes[note.uid] = note
+        }
+
+        return notes
     }
 }

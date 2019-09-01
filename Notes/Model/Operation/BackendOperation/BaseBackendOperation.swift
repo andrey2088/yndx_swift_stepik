@@ -15,9 +15,9 @@ enum NetworkError {
 class BaseBackendOperation: AsyncOperation {
 
     let remoteLogin: String = "andrey2088"
-    let remoteToken: String = "e43ddbd28f31aff4435d0a08f62626b30aa7ee1b"
+    let remoteToken: String = "9c66f644201cca83534bf6da1084de9a513b6694"
     let remoteLoadAddress: String
-    let remoteFilename: String = "ios-course-notes-db.json"
+    let remoteFilename: String = "ios-course-notes-db"
 
     var notebook: FileNotebook? = nil
 

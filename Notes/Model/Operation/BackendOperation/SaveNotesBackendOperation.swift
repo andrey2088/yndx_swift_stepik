@@ -26,7 +26,7 @@ class SaveNotesBackendOperation: BaseBackendOperation {
     }
 
     override func main() {
-        print("OP: Backend save started")
+        print("BACK SAVE started.")
 
         result = .failure(.unreachable)
 
@@ -38,7 +38,7 @@ class SaveNotesBackendOperation: BaseBackendOperation {
             }
         }
 
-        print("OP: Backend save finished")
+        print("BACK SAVE finished.")
         finish()
     }
 
@@ -73,12 +73,12 @@ class SaveNotesBackendOperation: BaseBackendOperation {
                 switch response.statusCode {
                 case 200..<300:
                     if (gistId != nil) {
-                        print("Backend save (edit) - success")
+                        print("BACK SAVE (edit) success")
                     } else {
-                        print("Backend save (create) - success")
+                        print("BACK SAVE (create) success")
                     }
                 default:
-                    print("Backend save error.\nStatus: \(response.statusCode): \(response.description)")
+                    print("BACK SAVE error.\nStatus: \(response.statusCode): \(response.description)")
                     return
                 }
             }
@@ -89,7 +89,7 @@ class SaveNotesBackendOperation: BaseBackendOperation {
                         let gist = try JSONDecoder().decode(GistLoad.self, from: data)
                         sself.notebook!.gistId = gist.id
                     } catch {
-                        print("Error while trying to read response: \(error)")
+                        print("BACK SAVE: Error while trying to read response: \(error)")
                         return
                     }
                 }

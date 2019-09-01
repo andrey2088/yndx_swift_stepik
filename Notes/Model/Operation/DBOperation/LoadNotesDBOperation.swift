@@ -15,11 +15,11 @@ class LoadNotesDBOperation: BaseDBOperation {
     private var dbNotes: [DBNote] = []
 
     override func main() {
-        print("OP: DB load started")
+        print("DB LOAD started.")
         fetchDbNotes()
         setNotesFromDbNotes()
         
-        print("OP: DB load finished")
+        print("DB LOAD finished.")
         finish()
     }
 
@@ -54,7 +54,8 @@ class LoadNotesDBOperation: BaseDBOperation {
                 content: dbNote.content!,
                 color: Note.uicolorFromString(dbNote.color!),
                 importance: Note.Importance(rawValue: dbNote.importance!) ?? Note.Importance.normal,
-                selfDestructDate: dbNote.selfDestructDate
+                selfDestructDate: dbNote.selfDestructDate,
+                modified: dbNote.modified
             )
             notes.append(note)
         }

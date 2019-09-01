@@ -19,7 +19,7 @@ class RemoveNoteDBOperation: BaseDBOperation {
     }
 
     override func main() {
-        print("OP: DB remove started")
+        print("DB REMOVE started.")
 
         if let dbNote = self.getDbNoteByNoteUid(noteUid: self.note.uid) {
             let group = DispatchGroup()
@@ -41,7 +41,7 @@ class RemoveNoteDBOperation: BaseDBOperation {
             group.wait()
         }
         
-        print("OP: DB remove finished")
+        print("DB REMOVE finished.")
         finish()
     }
 }

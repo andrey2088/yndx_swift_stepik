@@ -11,6 +11,7 @@ extension Note: Codable {
         case color
         case importance
         case selfDestructDate = "self_destruct_date"
+        case modified
     }
 
     public init(from decoder: Decoder) throws {
@@ -19,6 +20,7 @@ extension Note: Codable {
         uid = try container.decode(String.self, forKey: .uid)
         title = try container.decode(String.self, forKey: .title)
         content = try container.decode(String.self, forKey: .content)
+        modified = try container.decode(Date.self, forKey: .modified)
 
         importance = container.contains(.importance)
             ? try Importance(rawValue: container.decode(String.self, forKey: .importance)) ?? Importance.normal
@@ -39,6 +41,7 @@ extension Note: Codable {
         try container.encode(uid, forKey: .uid)
         try container.encode(title, forKey: .title)
         try container.encode(content, forKey: .content)
+        try container.encode(modified, forKey: .modified)
 
         if (importance != Importance.normal) {
             try container.encode(importance.rawValue, forKey: .importance)
